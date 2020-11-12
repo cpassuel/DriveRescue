@@ -1,0 +1,805 @@
+/* VER150
+  Généré par le compilateur Pascal Delphi de Borland
+  parce que -GD ou --drc a été fourni au compilateur.
+
+  Il contient des ressources générées par le compilateur liées à l'exécutable.
+  S'il est vide, aucune ressource générée par le compilateur ne sera
+  liée à l'exécutable produit.
+*/
+
+#define ConversionUnit_NTFSVOLUMEFLAGS_STR 65136
+#define ConversionUnit_MFTDATE_STR 65137
+#define ConversionUnit_NTFSPERMATTR_STR 65138
+#define ConversionUnit_NTFSSERIAL_STR 65139
+#define ConversionUnit_MFTSIZE_STR 65140
+#define ConversionUnit_CHECKSUM_STR 65141
+#define NTFSMFTEntry_EDriveReadError_STR 65142
+#define ProgressFormUnit_ABORT_QUERY_MSG 65143
+#define ProgressFormUnit_LABEL_REMAINING_CAPTION 65144
+#define ProgressFormUnit_LABEL_ELAPSED_CAPTION 65145
+#define ProgressFormUnit_TIME_UNKWON_CAPTION 65146
+#define ProgressFormUnit_TIME_NULL_CAPTION 65147
+#define ConversionUnit_PARTITIONSIZE_STR 65152
+#define ConversionUnit_TOTALSECTORS_STR 65153
+#define ConversionUnit_VOLUMEID_STR 65154
+#define ConversionUnit_PARTITIONSTATUS_STR 65155
+#define ConversionUnit_PRIMARY_STR 65156
+#define ConversionUnit_LOGICAL_STR 65157
+#define ConversionUnit_BOOTABLE_STR 65158
+#define ConversionUnit_FATCOUNT_STR 65159
+#define ConversionUnit_FATSIZE_STR 65160
+#define ConversionUnit_RSVDSECTORCOUNT_STR 65161
+#define ConversionUnit_FILERECORDSIZE_STR 65162
+#define ConversionUnit_CLUSPERFILERECORD_STR 65163
+#define ConversionUnit_INDEXBLOCKSIZE_STR 65164
+#define ConversionUnit_CLUSTPERINDXBLCK_STR 65165
+#define ConversionUnit_MFTFIRSTCLUST_STR 65166
+#define ConversionUnit_MFTMIRFIRSTCLUST_STR 65167
+#define ConversionUnit_DIRECTORY_STR 65168
+#define ConversionUnit_SHORTNAME_STR 65169
+#define ConversionUnit_DOSATTRIBUTES_STR 65170
+#define ConversionUnit_FILEID_STR 65171
+#define ConversionUnit_PARENTID_DIR_STR 65172
+#define ConversionUnit_LASTWRITE_STR 65173
+#define ConversionUnit_CREATEDATE_STR 65174
+#define ConversionUnit_LASTREAD_STR 65175
+#define ConversionUnit_PARTITIONTYPE_STR 65176
+#define ConversionUnit_PARTSTARTAT_STR 65177
+#define ConversionUnit_VOLUMENAME_STR 65178
+#define ConversionUnit_OEMNAME_STR 65179
+#define ConversionUnit_SECTORPERCLUSTER_STR 65180
+#define ConversionUnit_SECTORSIZE_STR 65181
+#define ConversionUnit_CLUSTERSIZE_STR 65182
+#define ConversionUnit_HIDDENSECTORS_STR 65183
+#define ConversionUnit_DRIVE_SELECT_TITLE_STR 65184
+#define ConversionUnit_FILE_LIST_SUMMARY_STR 65185
+#define ConversionUnit_RECOVERY_WARNING_MSG 65186
+#define ConversionUnit_EXPERT_MODE_BAD_VALUES 65187
+#define ConversionUnit_COMBO_PART_COUNT_STR 65188
+#define ConversionUnit_SECTOR_NUM_TOO_SMALL 65189
+#define ConversionUnit_INVALID_BOOT_SECTOR_MSG 65190
+#define ConversionUnit_ATM_NOT_SUPPORTED_PART_MSG 65191
+#define ConversionUnit_RECALC_PART_PARAM_MSG 65192
+#define ConversionUnit_INVALID_CLUSTER_NUM_ERROR_MSG 65193
+#define ConversionUnit_SAVE_LOG_ERROR_MSG 65194
+#define ConversionUnit_NOT_ENOUGH_SPACE_ON_DEST_MSG 65195
+#define ConversionUnit_NAME_STR 65196
+#define ConversionUnit_TYPE_STR 65197
+#define ConversionUnit_FILE_STR 65198
+#define ConversionUnit_SIZE_STR 65199
+#define ConversionUnit_PARTITIONFOUND_STR 65200
+#define ConversionUnit_SEARCHPARTENDED_STR 65201
+#define ConversionUnit_RECOVER_DLG_TITLE 65202
+#define ConversionUnit_SAVEDIALOG_TITLE_STR 65203
+#define ConversionUnit_SAVEDIALOG_FILTER_STR 65204
+#define ConversionUnit_SAVEDIALOG_DEFAULT_EXT_STR 65205
+#define ConversionUnit_SAVEDIALOG_NO_FILTER_STR 65206
+#define ConversionUnit_DRIVE_DUMP_BAD_POSITION_STR 65207
+#define ConversionUnit_DRIVE_DUMP_DRIVE_TITLE 65208
+#define ConversionUnit_DRIVE_DUMP_PART_TITLE 65209
+#define ConversionUnit_CLUSTER_NUM_STR 65210
+#define ConversionUnit_SECTOR_NUM_STR 65211
+#define ConversionUnit_SECTOR_ERROR_STR 65212
+#define ConversionUnit_SECTOR_INTERVAL_STR 65213
+#define ConversionUnit_CLUSTER_INTERVAL_STR 65214
+#define ConversionUnit_ABOUT_FORM_TITLE_STR 65215
+#define ConversionUnit_NO_FILE_TO_RECOVER_MSG 65216
+#define ConversionUnit_DEST_DRIVE_SPACE_STR 65217
+#define ConversionUnit_ENTER_CLUSTER_TITLE_STR 65218
+#define ConversionUnit_ENTER_ROOT_CLUSTER_MSG 65219
+#define ConversionUnit_DUMP_PART_HEADER_STR 65220
+#define ConversionUnit_NO_PART_DETECTED_STR 65221
+#define ConversionUnit_HEADER_PART_NUM_STR 65222
+#define ConversionUnit_PART_TYPE_INFO_STR 65223
+#define ConversionUnit_PART_STATUS_STR 65224
+#define ConversionUnit_START_SECTOR_STR 65225
+#define ConversionUnit_SECTOR_COUNT_STR 65226
+#define ConversionUnit_PART_SIZE_STR 65227
+#define ConversionUnit_SCAN_PART_DLG_TITLE 65228
+#define ConversionUnit_SCAN_PART_DLG_TEXT 65229
+#define ConversionUnit_SEARCH_PART_DLG_TITLE 65230
+#define ConversionUnit_ONPARTITIONINFO_STR 65231
+#define ConversionUnit_SELECT_DEST_DIR_STR 65232
+#define ConversionUnit_RECOVERY_SUMMARY_STR 65233
+#define ConversionUnit_SKIP_EXISTING_FILE_STR 65234
+#define ConversionUnit_SELECT_DRIVE_REPORT_STR 65235
+#define ConversionUnit_SELECT_PART_REPORT_STR 65236
+#define ConversionUnit_SCAN_PART_ROOT_STR 65237
+#define ConversionUnit_SCAN_PART_STR 65238
+#define ConversionUnit_SCAN_REPORT_STR 65239
+#define ConversionUnit_SCAN_BLOCKSIZE_STR 65240
+#define ConversionUnit_CANT_CREATE_DIR_ERROR_MSG 65241
+#define ConversionUnit_RECOVER_FILE_ERROR_STR 65242
+#define ConversionUnit_FILE_PROPERTIES_TITLE_STR 65243
+#define ConversionUnit_UNDEFINED_STR 65244
+#define ConversionUnit_PARTITION_INFO_STR 65245
+#define ConversionUnit_DRIVE_INFO_STR 65246
+#define ConversionUnit_START_RECOVERY_MSG 65247
+#define ComStrs_sTabFailSet 65248
+#define ComStrs_sTabFailSetObject 65249
+#define ComStrs_sTabMustBeMultiLine 65250
+#define ComStrs_sInvalidIndex 65251
+#define ComStrs_sInsertError 65252
+#define ComStrs_sInvalidOwner 65253
+#define ComStrs_sPageIndexError 65254
+#define ComStrs_sInvalidComCtl32 65255
+#define WinHelpViewer_hNoKeyword 65256
+#define ConversionUnit_BYTE_STRING 65257
+#define ConversionUnit_KBYTE_STRING 65258
+#define ConversionUnit_MBYTE_STRING 65259
+#define ConversionUnit_GBYTE_STRING 65260
+#define ConversionUnit_CONFIRM_EXIT_MSG 65261
+#define ConversionUnit_CURRENT_DIR_SUMMARY_STR 65262
+#define ConversionUnit_SELECTED_FILES_SUMMARY_STR 65263
+#define ExtCtrls_clNameInactiveCaptionText 65264
+#define ExtCtrls_clNameInfoBk 65265
+#define ExtCtrls_clNameInfoText 65266
+#define ExtCtrls_clNameMenu 65267
+#define ExtCtrls_clNameMenuText 65268
+#define ExtCtrls_clNameNone 65269
+#define ExtCtrls_clNameScrollBar 65270
+#define ExtCtrls_clName3DDkShadow 65271
+#define ExtCtrls_clName3DLight 65272
+#define ExtCtrls_clNameWindow 65273
+#define ExtCtrls_clNameWindowFrame 65274
+#define ExtCtrls_clNameWindowText 65275
+#define ComStrs_sTabFailClear 65276
+#define ComStrs_sTabFailDelete 65277
+#define ComStrs_sTabFailRetrieve 65278
+#define ComStrs_sTabFailGetObject 65279
+#define ExtCtrls_clNameMedGray 65280
+#define ExtCtrls_clNameActiveBorder 65281
+#define ExtCtrls_clNameActiveCaption 65282
+#define ExtCtrls_clNameAppWorkSpace 65283
+#define ExtCtrls_clNameBackground 65284
+#define ExtCtrls_clNameBtnFace 65285
+#define ExtCtrls_clNameBtnHighlight 65286
+#define ExtCtrls_clNameBtnShadow 65287
+#define ExtCtrls_clNameBtnText 65288
+#define ExtCtrls_clNameCaptionText 65289
+#define ExtCtrls_clNameDefault 65290
+#define ExtCtrls_clNameGrayText 65291
+#define ExtCtrls_clNameHighlight 65292
+#define ExtCtrls_clNameHighlightText 65293
+#define ExtCtrls_clNameInactiveBorder 65294
+#define ExtCtrls_clNameInactiveCaption 65295
+#define ExtCtrls_clNameOlive 65296
+#define ExtCtrls_clNameNavy 65297
+#define ExtCtrls_clNamePurple 65298
+#define ExtCtrls_clNameTeal 65299
+#define ExtCtrls_clNameGray 65300
+#define ExtCtrls_clNameSilver 65301
+#define ExtCtrls_clNameRed 65302
+#define ExtCtrls_clNameLime 65303
+#define ExtCtrls_clNameYellow 65304
+#define ExtCtrls_clNameBlue 65305
+#define ExtCtrls_clNameFuchsia 65306
+#define ExtCtrls_clNameAqua 65307
+#define ExtCtrls_clNameWhite 65308
+#define ExtCtrls_clNameMoneyGreen 65309
+#define ExtCtrls_clNameSkyBlue 65310
+#define ExtCtrls_clNameCream 65311
+#define Consts_SCannotOpenClipboard 65312
+#define Consts_SInvalidMemoSize 65313
+#define Consts_SDuplicateMenus 65314
+#define Consts_SDockedCtlNeedsName 65315
+#define Consts_SDockTreeRemoveError 65316
+#define Consts_SDockZoneNotFound 65317
+#define Consts_SDockZoneHasNoCtl 65318
+#define Consts_SMultiSelectRequired 65319
+#define Consts_SNoGetItemEventHandler 65320
+#define HelpIntfs_hNoTableOfContents 65321
+#define HelpIntfs_hNothingFound 65322
+#define HelpIntfs_hNoContext 65323
+#define HelpIntfs_hNoTopics 65324
+#define ExtCtrls_clNameBlack 65325
+#define ExtCtrls_clNameMaroon 65326
+#define ExtCtrls_clNameGreen 65327
+#define Consts_SmkcPgDn 65328
+#define Consts_SmkcEnd 65329
+#define Consts_SmkcHome 65330
+#define Consts_SmkcLeft 65331
+#define Consts_SmkcUp 65332
+#define Consts_SmkcRight 65333
+#define Consts_SmkcDown 65334
+#define Consts_SmkcIns 65335
+#define Consts_SmkcDel 65336
+#define Consts_SmkcShift 65337
+#define Consts_SmkcCtrl 65338
+#define Consts_SmkcAlt 65339
+#define Consts_SOutOfRange 65340
+#define Consts_SInsertLineError 65341
+#define Consts_SInvalidClipFmt 65342
+#define Consts_SIconToClipboard 65343
+#define Consts_SMsgDlgNo 65344
+#define Consts_SMsgDlgOK 65345
+#define Consts_SMsgDlgCancel 65346
+#define Consts_SMsgDlgHelp 65347
+#define Consts_SMsgDlgAbort 65348
+#define Consts_SMsgDlgRetry 65349
+#define Consts_SMsgDlgIgnore 65350
+#define Consts_SMsgDlgAll 65351
+#define Consts_SMsgDlgNoToAll 65352
+#define Consts_SMsgDlgYesToAll 65353
+#define Consts_SmkcBkSp 65354
+#define Consts_SmkcTab 65355
+#define Consts_SmkcEsc 65356
+#define Consts_SmkcEnter 65357
+#define Consts_SmkcSpace 65358
+#define Consts_SmkcPgUp 65359
+#define Consts_SHelpButton 65360
+#define Consts_SCloseButton 65361
+#define Consts_SIgnoreButton 65362
+#define Consts_SRetryButton 65363
+#define Consts_SAbortButton 65364
+#define Consts_SAllButton 65365
+#define Consts_SCannotDragForm 65366
+#define Consts_SVMetafiles 65367
+#define Consts_SVEnhMetafiles 65368
+#define Consts_SVIcons 65369
+#define Consts_SVBitmaps 65370
+#define Consts_SMsgDlgWarning 65371
+#define Consts_SMsgDlgError 65372
+#define Consts_SMsgDlgInformation 65373
+#define Consts_SMsgDlgConfirm 65374
+#define Consts_SMsgDlgYes 65375
+#define Consts_SParentGivenNotAParent 65376
+#define Consts_SMDIChildNotVisible 65377
+#define Consts_SVisibleChanged 65378
+#define Consts_SCannotShowModal 65379
+#define Consts_SPropertyOutOfRange 65380
+#define Consts_SMenuIndexError 65381
+#define Consts_SMenuReinserted 65382
+#define Consts_SMenuNotFound 65383
+#define Consts_SNoTimers 65384
+#define Consts_SGroupIndexTooLow 65385
+#define Consts_SNoMDIForm 65386
+#define Consts_SControlParentSetToSelf 65387
+#define Consts_SOKButton 65388
+#define Consts_SCancelButton 65389
+#define Consts_SYesButton 65390
+#define Consts_SNoButton 65391
+#define Consts_SInvalidIcon 65392
+#define Consts_SInvalidMetafile 65393
+#define Consts_SChangeIconSize 65394
+#define Consts_SUnknownClipboardFormat 65395
+#define Consts_SOutOfResources 65396
+#define Consts_SNoCanvasHandle 65397
+#define Consts_SInvalidImageSize 65398
+#define Consts_SInvalidImageList 65399
+#define Consts_SReplaceImage 65400
+#define Consts_SImageIndexError 65401
+#define Consts_SImageReadFail 65402
+#define Consts_SImageWriteFail 65403
+#define Consts_SWindowDCError 65404
+#define Consts_SWindowClass 65405
+#define Consts_SCannotFocus 65406
+#define Consts_SParentRequired 65407
+#define RTLConsts_SListCapacityError 65408
+#define RTLConsts_SListCountError 65409
+#define RTLConsts_SListIndexError 65410
+#define RTLConsts_SMemoryStreamError 65411
+#define RTLConsts_SPropertyException 65412
+#define RTLConsts_SReadError 65413
+#define RTLConsts_SReadOnlyProperty 65414
+#define RTLConsts_SResNotFound 65415
+#define RTLConsts_SSeekNotImplemented 65416
+#define RTLConsts_SSortedListError 65417
+#define RTLConsts_SUnknownGroup 65418
+#define RTLConsts_SUnknownProperty 65419
+#define RTLConsts_SWriteError 65420
+#define Consts_SInvalidTabPosition 65421
+#define Consts_SInvalidTabStyle 65422
+#define Consts_SInvalidBitmap 65423
+#define RTLConsts_SAssignError 65424
+#define RTLConsts_SBitsIndexError 65425
+#define RTLConsts_SCantWriteResourceStreamError 65426
+#define RTLConsts_SCheckSynchronizeError 65427
+#define RTLConsts_SClassNotFound 65428
+#define RTLConsts_SDuplicateClass 65429
+#define RTLConsts_SDuplicateItem 65430
+#define RTLConsts_SDuplicateName 65431
+#define RTLConsts_SDuplicateString 65432
+#define RTLConsts_SFCreateErrorEx 65433
+#define RTLConsts_SFOpenErrorEx 65434
+#define RTLConsts_SInvalidImage 65435
+#define RTLConsts_SInvalidName 65436
+#define RTLConsts_SInvalidProperty 65437
+#define RTLConsts_SInvalidPropertyPath 65438
+#define RTLConsts_SInvalidPropertyValue 65439
+#define SysConst_SShortDayNameSun 65440
+#define SysConst_SShortDayNameMon 65441
+#define SysConst_SShortDayNameTue 65442
+#define SysConst_SShortDayNameWed 65443
+#define SysConst_SShortDayNameThu 65444
+#define SysConst_SShortDayNameFri 65445
+#define SysConst_SShortDayNameSat 65446
+#define SysConst_SLongDayNameSun 65447
+#define SysConst_SLongDayNameMon 65448
+#define SysConst_SLongDayNameTue 65449
+#define SysConst_SLongDayNameWed 65450
+#define SysConst_SLongDayNameThu 65451
+#define SysConst_SLongDayNameFri 65452
+#define SysConst_SLongDayNameSat 65453
+#define SysConst_SCannotCreateDir 65454
+#define RTLConsts_SAncestorNotFound 65455
+#define SysConst_SShortMonthNameSep 65456
+#define SysConst_SShortMonthNameOct 65457
+#define SysConst_SShortMonthNameNov 65458
+#define SysConst_SShortMonthNameDec 65459
+#define SysConst_SLongMonthNameJan 65460
+#define SysConst_SLongMonthNameFeb 65461
+#define SysConst_SLongMonthNameMar 65462
+#define SysConst_SLongMonthNameApr 65463
+#define SysConst_SLongMonthNameMay 65464
+#define SysConst_SLongMonthNameJun 65465
+#define SysConst_SLongMonthNameJul 65466
+#define SysConst_SLongMonthNameAug 65467
+#define SysConst_SLongMonthNameSep 65468
+#define SysConst_SLongMonthNameOct 65469
+#define SysConst_SLongMonthNameNov 65470
+#define SysConst_SLongMonthNameDec 65471
+#define SysConst_SAssertionFailed 65472
+#define SysConst_SIntfCastError 65473
+#define SysConst_SSafecallException 65474
+#define SysConst_SAssertError 65475
+#define SysConst_SAbstractError 65476
+#define SysConst_SModuleAccessViolation 65477
+#define SysConst_SOSError 65478
+#define SysConst_SUnkOSError 65479
+#define SysConst_SShortMonthNameJan 65480
+#define SysConst_SShortMonthNameFeb 65481
+#define SysConst_SShortMonthNameMar 65482
+#define SysConst_SShortMonthNameApr 65483
+#define SysConst_SShortMonthNameMay 65484
+#define SysConst_SShortMonthNameJun 65485
+#define SysConst_SShortMonthNameJul 65486
+#define SysConst_SShortMonthNameAug 65487
+#define SysConst_SWriteAccess 65488
+#define SysConst_SVarArrayCreate 65489
+#define SysConst_SVarArrayBounds 65490
+#define SysConst_SVarArrayLocked 65491
+#define SysConst_SInvalidVarCast 65492
+#define SysConst_SInvalidVarOp 65493
+#define SysConst_SInvalidVarNullOp 65494
+#define SysConst_SInvalidVarOpWithHResultWithPrefix 65495
+#define SysConst_SVarTypeCouldNotConvert 65496
+#define SysConst_SVarTypeConvertOverflow 65497
+#define SysConst_SVarOverflow 65498
+#define SysConst_SVarInvalid 65499
+#define SysConst_SVarBadType 65500
+#define SysConst_SVarNotImplemented 65501
+#define SysConst_SVarUnexpected 65502
+#define SysConst_SExternalException 65503
+#define SysConst_SZeroDivide 65504
+#define SysConst_SOverflow 65505
+#define SysConst_SUnderflow 65506
+#define SysConst_SInvalidPointer 65507
+#define SysConst_SInvalidCast 65508
+#define SysConst_SAccessViolationArg3 65509
+#define SysConst_SAccessViolationNoArg 65510
+#define SysConst_SStackOverflow 65511
+#define SysConst_SControlC 65512
+#define SysConst_SPrivilege 65513
+#define SysConst_SException 65514
+#define SysConst_SExceptTitle 65515
+#define SysConst_SInvalidFormat 65516
+#define SysConst_SArgumentMissing 65517
+#define SysConst_SDispatchError 65518
+#define SysConst_SReadAccess 65519
+#define SysConst_SInvalidInteger 65520
+#define SysConst_STimeEncodeError 65521
+#define SysConst_SDateEncodeError 65522
+#define SysConst_SOutOfMemory 65523
+#define SysConst_SInOutError 65524
+#define SysConst_SFileNotFound 65525
+#define SysConst_SInvalidFilename 65526
+#define SysConst_STooManyOpenFiles 65527
+#define SysConst_SAccessDenied 65528
+#define SysConst_SEndOfFile 65529
+#define SysConst_SDiskFull 65530
+#define SysConst_SInvalidInput 65531
+#define SysConst_SDivByZero 65532
+#define SysConst_SRangeError 65533
+#define SysConst_SIntOverflow 65534
+#define SysConst_SInvalidOp 65535
+STRINGTABLE
+BEGIN
+	ConversionUnit_NTFSVOLUMEFLAGS_STR,	"Volume Flags"
+	ConversionUnit_MFTDATE_STR,	"MFT Change Date"
+	ConversionUnit_NTFSPERMATTR_STR,	"NTFS Attributes"
+	ConversionUnit_NTFSSERIAL_STR,	"NTFS Serial Number"
+	ConversionUnit_MFTSIZE_STR,	"MFT Size"
+	ConversionUnit_CHECKSUM_STR,	"Checksum"
+	NTFSMFTEntry_EDriveReadError_STR,	"Can't Read FileRecord Entry %d"
+	ProgressFormUnit_ABORT_QUERY_MSG,	"Voulez-vous interrompre l'opération en cours ?"
+	ProgressFormUnit_LABEL_REMAINING_CAPTION,	"Temps restant"
+	ProgressFormUnit_LABEL_ELAPSED_CAPTION,	"Temps écoulé"
+	ProgressFormUnit_TIME_UNKWON_CAPTION,	"??:??:??"
+	ProgressFormUnit_TIME_NULL_CAPTION,	"00:00:00"
+	ConversionUnit_PARTITIONSIZE_STR,	"Partition size"
+	ConversionUnit_TOTALSECTORS_STR,	"Total Sectors"
+	ConversionUnit_VOLUMEID_STR,	"Volume ID"
+	ConversionUnit_PARTITIONSTATUS_STR,	"Partition Status"
+	ConversionUnit_PRIMARY_STR,	"Primary"
+	ConversionUnit_LOGICAL_STR,	"Logical"
+	ConversionUnit_BOOTABLE_STR,	"Bootable"
+	ConversionUnit_FATCOUNT_STR,	"Number of FAT(s)"
+	ConversionUnit_FATSIZE_STR,	"FAT Size"
+	ConversionUnit_RSVDSECTORCOUNT_STR,	"Reserved Sector Count"
+	ConversionUnit_FILERECORDSIZE_STR,	"File Record Size"
+	ConversionUnit_CLUSPERFILERECORD_STR,	"Clusters Per File Record"
+	ConversionUnit_INDEXBLOCKSIZE_STR,	"Index Block Size"
+	ConversionUnit_CLUSTPERINDXBLCK_STR,	"Clusters Per Index Block"
+	ConversionUnit_MFTFIRSTCLUST_STR,	"$MFT first cluster"
+	ConversionUnit_MFTMIRFIRSTCLUST_STR,	"$MFT Mirror first cluster"
+	ConversionUnit_DIRECTORY_STR,	"Directory"
+	ConversionUnit_SHORTNAME_STR,	"Short Name (8.3)"
+	ConversionUnit_DOSATTRIBUTES_STR,	"DOS Attributes"
+	ConversionUnit_FILEID_STR,	"File ID"
+	ConversionUnit_PARENTID_DIR_STR,	"Parent Dir ID"
+	ConversionUnit_LASTWRITE_STR,	"Last Modification"
+	ConversionUnit_CREATEDATE_STR,	"Creation Date"
+	ConversionUnit_LASTREAD_STR,	"Last Access"
+	ConversionUnit_PARTITIONTYPE_STR,	"Partition Type"
+	ConversionUnit_PARTSTARTAT_STR,	"Partition starts at"
+	ConversionUnit_VOLUMENAME_STR,	"Volume Name"
+	ConversionUnit_OEMNAME_STR,	"OEMNAme"
+	ConversionUnit_SECTORPERCLUSTER_STR,	"Sectors per Cluster"
+	ConversionUnit_SECTORSIZE_STR,	"Sector Size"
+	ConversionUnit_CLUSTERSIZE_STR,	"Cluster Size"
+	ConversionUnit_HIDDENSECTORS_STR,	"Hidden Sectors"
+	ConversionUnit_DRIVE_SELECT_TITLE_STR,	"Choisir un disque"
+	ConversionUnit_FILE_LIST_SUMMARY_STR,	"%d Fichier(s) dans %s"
+	ConversionUnit_RECOVERY_WARNING_MSG,	"Il ne faut pas sauvegarder les fichiers sur la partition\rqui est en cours de récupération."
+	ConversionUnit_EXPERT_MODE_BAD_VALUES,	"Valeurs non valides."
+	ConversionUnit_COMBO_PART_COUNT_STR,	"%d partition(s) dans la liste"
+	ConversionUnit_SECTOR_NUM_TOO_SMALL,	"Le numéro de secteur saisi est trop petit."
+	ConversionUnit_INVALID_BOOT_SECTOR_MSG,	"La partition est corrompue (BootSector non valide).\r\nElle n'est pas récupérable avec la version actuelle du logiciel."
+	ConversionUnit_ATM_NOT_SUPPORTED_PART_MSG,	"Type de partition non supporté actuellement."
+	ConversionUnit_RECALC_PART_PARAM_MSG,	"Voulez vous recalculer les informations de la partition ?\rAttention ! Cela n'est valable que si la partition a été formatée de manière standard."
+	ConversionUnit_INVALID_CLUSTER_NUM_ERROR_MSG,	"Numéro de cluster non, valide"
+	ConversionUnit_SAVE_LOG_ERROR_MSG,	"Erreur lors de la sauvegarde"
+	ConversionUnit_NOT_ENOUGH_SPACE_ON_DEST_MSG,	"Pas assez de place disponible sur le disque destination."
+	ConversionUnit_NAME_STR,	"Name"
+	ConversionUnit_TYPE_STR,	"Type"
+	ConversionUnit_FILE_STR,	"File"
+	ConversionUnit_SIZE_STR,	"Size"
+	ConversionUnit_PARTITIONFOUND_STR,	"Partitions trouvées:"
+	ConversionUnit_SEARCHPARTENDED_STR,	"Recherche terminée."
+	ConversionUnit_RECOVER_DLG_TITLE,	"Restauration des fichiers..."
+	ConversionUnit_SAVEDIALOG_TITLE_STR,	"Selectionner un fichier"
+	ConversionUnit_SAVEDIALOG_FILTER_STR,	"Fichiers texte (*.txt)|*.TXT|Tous les fichiers (*.*)|*.*"
+	ConversionUnit_SAVEDIALOG_DEFAULT_EXT_STR,	"txt"
+	ConversionUnit_SAVEDIALOG_NO_FILTER_STR,	"Tous les fichiers (*.*)|*.*"
+	ConversionUnit_DRIVE_DUMP_BAD_POSITION_STR,	"Position non valide"
+	ConversionUnit_DRIVE_DUMP_DRIVE_TITLE,	"Visualisation Disque [Secteur]"
+	ConversionUnit_DRIVE_DUMP_PART_TITLE,	"Visualisation Partition [Secteur/Cluster]"
+	ConversionUnit_CLUSTER_NUM_STR,	"Cluster %d"
+	ConversionUnit_SECTOR_NUM_STR,	"Secteur %d"
+	ConversionUnit_SECTOR_ERROR_STR,	"Erreur Secteur %d"
+	ConversionUnit_SECTOR_INTERVAL_STR,	"Secteur %d à %d"
+	ConversionUnit_CLUSTER_INTERVAL_STR,	"Cluster %d à %d"
+	ConversionUnit_ABOUT_FORM_TITLE_STR,	"A Propos..."
+	ConversionUnit_NO_FILE_TO_RECOVER_MSG,	"Il n'y a pas de fichier à sauvegarder"
+	ConversionUnit_DEST_DRIVE_SPACE_STR,	"Espace sur disque destination: %s - Taille fichiers: %s"
+	ConversionUnit_ENTER_CLUSTER_TITLE_STR,	"Saisie du cluster racine"
+	ConversionUnit_ENTER_ROOT_CLUSTER_MSG,	"Pour utilisateur expérimenté !\rVeuillez entrer le numéro de cluster pour le scan (de %d à %d)"
+	ConversionUnit_DUMP_PART_HEADER_STR,	"Listes des partitions détectées"
+	ConversionUnit_NO_PART_DETECTED_STR,	"Pas de partition détectée"
+	ConversionUnit_HEADER_PART_NUM_STR,	"Info partition n° %d"
+	ConversionUnit_PART_TYPE_INFO_STR,	" - FileSystem: %s (BootID: %.2x)"
+	ConversionUnit_PART_STATUS_STR,	" - Status : "
+	ConversionUnit_START_SECTOR_STR,	" - Start Sector: %d (CHS %d-%d-%d)"
+	ConversionUnit_SECTOR_COUNT_STR,	" - Nombre de secteurs: %d"
+	ConversionUnit_PART_SIZE_STR,	" - Taille de la partition: %s"
+	ConversionUnit_SCAN_PART_DLG_TITLE,	"Analyse de la partition, Veuillez patientez..."
+	ConversionUnit_SCAN_PART_DLG_TEXT,	"Analyse en cours"
+	ConversionUnit_SEARCH_PART_DLG_TITLE,	"Recherche des partitions, Veuillez patienter..."
+	ConversionUnit_ONPARTITIONINFO_STR,	" - Partition: %s - %s (CHS %d-%d-%d, LBA %d) "
+	ConversionUnit_SELECT_DEST_DIR_STR,	"Sélectionner le répertoire de destination pour la sauvegarde"
+	ConversionUnit_RECOVERY_SUMMARY_STR,	"%d octet(s) sauvés sur %d octet(s)"
+	ConversionUnit_SKIP_EXISTING_FILE_STR,	"Le fichier %s existe déja, il ne sera pas restauré."
+	ConversionUnit_SELECT_DRIVE_REPORT_STR,	"Drive %s - %s selected"
+	ConversionUnit_SELECT_PART_REPORT_STR,	"Partition %s (%s) sélectionnée (LBA %d, CHS %d-%d-%d)"
+	ConversionUnit_SCAN_PART_ROOT_STR,	"Scanning directories, starting from Root Directory."
+	ConversionUnit_SCAN_PART_STR,	"Scanning directories, starting from cluster %d."
+	ConversionUnit_SCAN_REPORT_STR,	"%d Fichier(s) et %d Répertoire(s) trouvés (%s)"
+	ConversionUnit_SCAN_BLOCKSIZE_STR,	"Taille réelle occupée sur le disque: "
+	ConversionUnit_CANT_CREATE_DIR_ERROR_MSG,	"ERREUR: Création du répertoire %s impossible"
+	ConversionUnit_RECOVER_FILE_ERROR_STR,	"ERREUR: Le fichier %s n'a pas été restauré correctement"
+	ConversionUnit_FILE_PROPERTIES_TITLE_STR,	"Propriétés de %s"
+	ConversionUnit_UNDEFINED_STR,	"Undefined"
+	ConversionUnit_PARTITION_INFO_STR,	"Partition Info"
+	ConversionUnit_DRIVE_INFO_STR,	"Drive %s Info"
+	ConversionUnit_START_RECOVERY_MSG,	"Starting Recovery."
+	ComStrs_sTabFailSet,	"Echec pour mettre l'onglet \"%s\" à l'indice %d"
+	ComStrs_sTabFailSetObject,	"Echec pour mettre l'objet à l'indice %d"
+	ComStrs_sTabMustBeMultiLine,	"MultiLine doit être vrai lorsque TabPosition est tpLeft ou tpRight"
+	ComStrs_sInvalidIndex,	"Index incorrect"
+	ComStrs_sInsertError,	"Impossible d'insérer un élément"
+	ComStrs_sInvalidOwner,	"Propriétaire incorrect"
+	ComStrs_sPageIndexError,	"%d est une valeur de PageIndex incorrecte.  PageIndex doit être compris entre 0 et %d"
+	ComStrs_sInvalidComCtl32,	"Ce contrôle nécessite COMCTL32.DLL version 4.70 ou supérieure"
+	WinHelpViewer_hNoKeyword,	"Aucun mot clé d'aide spécifié."
+	ConversionUnit_BYTE_STRING,	"octet(s)"
+	ConversionUnit_KBYTE_STRING,	"Ko"
+	ConversionUnit_MBYTE_STRING,	"Mo"
+	ConversionUnit_GBYTE_STRING,	"Go"
+	ConversionUnit_CONFIRM_EXIT_MSG,	"Voulez-vous quitter l'application ?"
+	ConversionUnit_CURRENT_DIR_SUMMARY_STR,	"%d fichier(s) dans le répertoire courant (%s)"
+	ConversionUnit_SELECTED_FILES_SUMMARY_STR,	"%d Fichier(s) selectionnés (%s)"
+	ExtCtrls_clNameInactiveCaptionText,	"Texte de libellé inactif"
+	ExtCtrls_clNameInfoBk,	"Fond d'information"
+	ExtCtrls_clNameInfoText,	"Texte d'information"
+	ExtCtrls_clNameMenu,	"Fond de menu"
+	ExtCtrls_clNameMenuText,	"Texte de menu"
+	ExtCtrls_clNameNone,	"Aucun"
+	ExtCtrls_clNameScrollBar,	"Barre de défilement"
+	ExtCtrls_clName3DDkShadow,	"Ombre foncée 3D"
+	ExtCtrls_clName3DLight,	"3D clair"
+	ExtCtrls_clNameWindow,	"Fond de fenêtre"
+	ExtCtrls_clNameWindowFrame,	"Cadre de fenêtre"
+	ExtCtrls_clNameWindowText,	"Texte de fenêtre"
+	ComStrs_sTabFailClear,	"Echec à l'effacement du contrôle onglet"
+	ComStrs_sTabFailDelete,	"Echec à la suppression de l'onglet d'indice %d"
+	ComStrs_sTabFailRetrieve,	"Echec à la récupération de l'onglet d'indice %d"
+	ComStrs_sTabFailGetObject,	"Echec à l'obtention de l'objet à l'indice %d"
+	ExtCtrls_clNameMedGray,	"Gris moyen"
+	ExtCtrls_clNameActiveBorder,	"Bordure active"
+	ExtCtrls_clNameActiveCaption,	"Libellé actif"
+	ExtCtrls_clNameAppWorkSpace,	"Espace de travail d'application"
+	ExtCtrls_clNameBackground,	"Fond"
+	ExtCtrls_clNameBtnFace,	"Face de bouton"
+	ExtCtrls_clNameBtnHighlight,	"Surbrillance de bouton"
+	ExtCtrls_clNameBtnShadow,	"Ombre de bouton"
+	ExtCtrls_clNameBtnText,	"Texte de bouton"
+	ExtCtrls_clNameCaptionText,	"Texte de libellé"
+	ExtCtrls_clNameDefault,	"Défaut"
+	ExtCtrls_clNameGrayText,	"Texte gris"
+	ExtCtrls_clNameHighlight,	"Fond de surbrillance"
+	ExtCtrls_clNameHighlightText,	"Texte de surbrillance"
+	ExtCtrls_clNameInactiveBorder,	"Bordure inactive"
+	ExtCtrls_clNameInactiveCaption,	"Libellé inactif"
+	ExtCtrls_clNameOlive,	"Olive"
+	ExtCtrls_clNameNavy,	"Bleu marine"
+	ExtCtrls_clNamePurple,	"Pourpre"
+	ExtCtrls_clNameTeal,	"Cyan"
+	ExtCtrls_clNameGray,	"Gris"
+	ExtCtrls_clNameSilver,	"Argent"
+	ExtCtrls_clNameRed,	"Rouge"
+	ExtCtrls_clNameLime,	"Vert clair"
+	ExtCtrls_clNameYellow,	"Jaune"
+	ExtCtrls_clNameBlue,	"Bleu"
+	ExtCtrls_clNameFuchsia,	"Fuchsia"
+	ExtCtrls_clNameAqua,	"Turquoise"
+	ExtCtrls_clNameWhite,	"Blanc"
+	ExtCtrls_clNameMoneyGreen,	"Vert foncé"
+	ExtCtrls_clNameSkyBlue,	"Bleu ciel"
+	ExtCtrls_clNameCream,	"Crème"
+	Consts_SCannotOpenClipboard,	"Impossible d'ouvrir le Presse-papiers"
+	Consts_SInvalidMemoSize,	"Le texte dépasse la capacité du mémo"
+	Consts_SDuplicateMenus,	"Le menu '%s' est déjà utilisé par une autre fiche"
+	Consts_SDockedCtlNeedsName,	"Le composant ancré doit avoir un nom"
+	Consts_SDockTreeRemoveError,	"Erreur à la suppression du contrôle de l'arbre ancré"
+	Consts_SDockZoneNotFound,	" - Zone d'ancrage non trouvée"
+	Consts_SDockZoneHasNoCtl,	" - La zone d'ancrage n'a pas de contrôle"
+	Consts_SMultiSelectRequired,	"Le mode multisélection doit être activé pour cette fonction."
+	Consts_SNoGetItemEventHandler,	"Gestionnaire d'événement OnGetItem non affecté"
+	HelpIntfs_hNoTableOfContents,	"Impossible de trouver une table des matières"
+	HelpIntfs_hNothingFound,	"Aucune aide trouvée pour %s."
+	HelpIntfs_hNoContext,	"Aucune aide contextuelle trouvée"
+	HelpIntfs_hNoTopics,	"Aucun système d'aide à rubriques n'a été installé"
+	ExtCtrls_clNameBlack,	"Noir"
+	ExtCtrls_clNameMaroon,	"Marron"
+	ExtCtrls_clNameGreen,	"Vert"
+	Consts_SmkcPgDn,	"PageSuiv"
+	Consts_SmkcEnd,	"Fin"
+	Consts_SmkcHome,	"Origine"
+	Consts_SmkcLeft,	"Gauche"
+	Consts_SmkcUp,	"Haut"
+	Consts_SmkcRight,	"Droite"
+	Consts_SmkcDown,	"Bas"
+	Consts_SmkcIns,	"Ins"
+	Consts_SmkcDel,	"Suppr"
+	Consts_SmkcShift,	"Maj+"
+	Consts_SmkcCtrl,	"Ctrl+"
+	Consts_SmkcAlt,	"Alt+"
+	Consts_SOutOfRange,	"La valeur doit être comprise entre %d et %d"
+	Consts_SInsertLineError,	"Impossible d'insérer une ligne"
+	Consts_SInvalidClipFmt,	"Format de Presse-papiers incorrect"
+	Consts_SIconToClipboard,	"Le Presse-papiers ne supporte pas les icônes"
+	Consts_SMsgDlgNo,	"&Non"
+	Consts_SMsgDlgOK,	"OK"
+	Consts_SMsgDlgCancel,	"Annuler"
+	Consts_SMsgDlgHelp,	"&Aide"
+	Consts_SMsgDlgAbort,	"&Abandonner"
+	Consts_SMsgDlgRetry,	"&Retenter"
+	Consts_SMsgDlgIgnore,	"&Ignorer"
+	Consts_SMsgDlgAll,	"&Tous"
+	Consts_SMsgDlgNoToAll,	"Non &pour tout"
+	Consts_SMsgDlgYesToAll,	"O&ui pour tout"
+	Consts_SmkcBkSp,	"RetArr"
+	Consts_SmkcTab,	"Tab"
+	Consts_SmkcEsc,	"Echap"
+	Consts_SmkcEnter,	"Entrée"
+	Consts_SmkcSpace,	"Espace"
+	Consts_SmkcPgUp,	"PagePréc"
+	Consts_SHelpButton,	"&Aide"
+	Consts_SCloseButton,	"&Fermer"
+	Consts_SIgnoreButton,	"&Ignorer"
+	Consts_SRetryButton,	"&Retenter"
+	Consts_SAbortButton,	"Abandon"
+	Consts_SAllButton,	"&Tous"
+	Consts_SCannotDragForm,	"Impossible de glisser une fiche"
+	Consts_SVMetafiles,	"Métafichiers"
+	Consts_SVEnhMetafiles,	"Métafichiers évolués"
+	Consts_SVIcons,	"Icônes"
+	Consts_SVBitmaps,	"Bitmaps"
+	Consts_SMsgDlgWarning,	"Avertissement"
+	Consts_SMsgDlgError,	"Erreur"
+	Consts_SMsgDlgInformation,	"Information"
+	Consts_SMsgDlgConfirm,	"Confirmation"
+	Consts_SMsgDlgYes,	"&Oui"
+	Consts_SParentGivenNotAParent,	"Le parent donné n'est pas un parent de '%s'"
+	Consts_SMDIChildNotVisible,	"Impossible de cacher une fiche enfant MDI"
+	Consts_SVisibleChanged,	"Impossible de changer Visible dans OnShow ou OnHide"
+	Consts_SCannotShowModal,	"Impossible de rendre modale une fenêtre visible"
+	Consts_SPropertyOutOfRange,	"Propriété %s hors limites"
+	Consts_SMenuIndexError,	"Indice de menu hors limites"
+	Consts_SMenuReinserted,	"Menu inséré deux fois"
+	Consts_SMenuNotFound,	"Sous-menu pas dans le menu"
+	Consts_SNoTimers,	"Pas assez de timers disponibles"
+	Consts_SGroupIndexTooLow,	"GroupIndex ne peut être inférieur à celui de l'élément de menu précédent"
+	Consts_SNoMDIForm,	"Impossible de créer la fiche. Aucune fiche Non MDI active"
+	Consts_SControlParentSetToSelf,	"Un contrôle ne peut être son propre parent"
+	Consts_SOKButton,	"OK"
+	Consts_SCancelButton,	"Annuler"
+	Consts_SYesButton,	"&Oui"
+	Consts_SNoButton,	"&Non"
+	Consts_SInvalidIcon,	"Image icône incorrecte"
+	Consts_SInvalidMetafile,	"MetaFichier incorrect"
+	Consts_SChangeIconSize,	"Impossible de modifier la taille d'une icône"
+	Consts_SUnknownClipboardFormat,	"Format de Presse-papiers non supporté"
+	Consts_SOutOfResources,	"Ressources système insuffisantes"
+	Consts_SNoCanvasHandle,	"Le canevas ne permet pas de dessiner"
+	Consts_SInvalidImageSize,	"Taille d'image incorrecte"
+	Consts_SInvalidImageList,	"ImageList incorrecte"
+	Consts_SReplaceImage,	"Impossible de remplacer l'image"
+	Consts_SImageIndexError,	"Indice ImageList incorrect"
+	Consts_SImageReadFail,	"Erreur à la lecture des données ImageList dans le flux"
+	Consts_SImageWriteFail,	"Erreur à l'écriture des données ImageList dans le flux"
+	Consts_SWindowDCError,	"Erreur à la création du contexte périphérique fenêtre"
+	Consts_SWindowClass,	"Erreur à la création de la classe fenêtre"
+	Consts_SCannotFocus,	"Impossible de focaliser une fenêtre désactivée ou invisible"
+	Consts_SParentRequired,	"Le contrôle '%s' n'a pas de fenêtre parente"
+	RTLConsts_SListCapacityError,	"Capacité de liste hors limites (%d)"
+	RTLConsts_SListCountError,	"Compte de liste hors limites (%d)"
+	RTLConsts_SListIndexError,	"Indice de liste hors limites (%d)"
+	RTLConsts_SMemoryStreamError,	"Mémoire insuffisante lors de l'extension du flux mémoire"
+	RTLConsts_SPropertyException,	"Erreur lors de la lecture de %s%s%s: %s"
+	RTLConsts_SReadError,	"Erreur de lecture du flux"
+	RTLConsts_SReadOnlyProperty,	"Propriété en lecture seule"
+	RTLConsts_SResNotFound,	"Ressource %s non trouvée"
+	RTLConsts_SSeekNotImplemented,	"%s.Seek non implémenté"
+	RTLConsts_SSortedListError,	"Opération non autorisée dans une liste ordonnée"
+	RTLConsts_SUnknownGroup,	"%s n'est pas dans un groupe de recensement de classes"
+	RTLConsts_SUnknownProperty,	"La propriété %s n'existe pas"
+	RTLConsts_SWriteError,	"Erreur d'écriture dans le flux"
+	Consts_SInvalidTabPosition,	"Position d'onglet incompatible avec le style d'onglet actuel"
+	Consts_SInvalidTabStyle,	"Style d'onglet incompatible avec la position d'onglet actuelle"
+	Consts_SInvalidBitmap,	"Image bitmap incorrecte"
+	RTLConsts_SAssignError,	"Impossible d'affecter %s à %s"
+	RTLConsts_SBitsIndexError,	"Indice de bits hors limites"
+	RTLConsts_SCantWriteResourceStreamError,	"Impossible d'écrire dans un flux en lecture seule"
+	RTLConsts_SCheckSynchronizeError,	"CheckSynchronize a été appelée depuis le thread $%x, qui n'est PAS le thread principal"
+	RTLConsts_SClassNotFound,	"Classe %s non trouvée"
+	RTLConsts_SDuplicateClass,	"Une classe nommée %s existe déjà"
+	RTLConsts_SDuplicateItem,	"La liste n'autorise pas les doublons ($0%x)"
+	RTLConsts_SDuplicateName,	"Un composant nommé %s existe déjà"
+	RTLConsts_SDuplicateString,	"La liste de chaînes n'autorise pas les doublons"
+	RTLConsts_SFCreateErrorEx,	"Impossible de créer le fichier \"%s\". %s"
+	RTLConsts_SFOpenErrorEx,	"Impossible d'ouvrir le fichier \"%s\". %s"
+	RTLConsts_SInvalidImage,	"Format de flux incorrect"
+	RTLConsts_SInvalidName,	"''%s'' n'est pas un nom de composant correct"
+	RTLConsts_SInvalidProperty,	"Valeur de propriété incorrecte"
+	RTLConsts_SInvalidPropertyPath,	"Chemin de propriété incorrect"
+	RTLConsts_SInvalidPropertyValue,	"Valeur de propriété incorrecte"
+	SysConst_SShortDayNameSun,	"Dim"
+	SysConst_SShortDayNameMon,	"Lun"
+	SysConst_SShortDayNameTue,	"Mar"
+	SysConst_SShortDayNameWed,	"Mer"
+	SysConst_SShortDayNameThu,	"Jeu"
+	SysConst_SShortDayNameFri,	"Ven"
+	SysConst_SShortDayNameSat,	"Sam"
+	SysConst_SLongDayNameSun,	"Dimanche"
+	SysConst_SLongDayNameMon,	"Lundi"
+	SysConst_SLongDayNameTue,	"Mardi"
+	SysConst_SLongDayNameWed,	"Mercredi"
+	SysConst_SLongDayNameThu,	"Jeudi"
+	SysConst_SLongDayNameFri,	"Vendredi"
+	SysConst_SLongDayNameSat,	"Samedi"
+	SysConst_SCannotCreateDir,	"Impossible de créer le répertoire"
+	RTLConsts_SAncestorNotFound,	"Ancêtre de '%s' non trouvé"
+	SysConst_SShortMonthNameSep,	"Sep"
+	SysConst_SShortMonthNameOct,	"Oct"
+	SysConst_SShortMonthNameNov,	"Nov"
+	SysConst_SShortMonthNameDec,	"Déc"
+	SysConst_SLongMonthNameJan,	"Janvier"
+	SysConst_SLongMonthNameFeb,	"Février"
+	SysConst_SLongMonthNameMar,	"Mars"
+	SysConst_SLongMonthNameApr,	"Avril"
+	SysConst_SLongMonthNameMay,	"Mai"
+	SysConst_SLongMonthNameJun,	"Juin"
+	SysConst_SLongMonthNameJul,	"Juillet"
+	SysConst_SLongMonthNameAug,	"Août"
+	SysConst_SLongMonthNameSep,	"Septembre"
+	SysConst_SLongMonthNameOct,	"Octobre"
+	SysConst_SLongMonthNameNov,	"Novembre"
+	SysConst_SLongMonthNameDec,	"Décembre"
+	SysConst_SAssertionFailed,	"Echec de l'assertion"
+	SysConst_SIntfCastError,	"Interface non supportée"
+	SysConst_SSafecallException,	"Exception dans méthode safecall"
+	SysConst_SAssertError,	"%s (%s, ligne %d)"
+	SysConst_SAbstractError,	"Erreur abstraite"
+	SysConst_SModuleAccessViolation,	"Violation d'accès à l'adresse %p dans le module '%s'. %s de l'adresse %p"
+	SysConst_SOSError,	"Erreur système.  Code : %d.\r\n%s"
+	SysConst_SUnkOSError,	"Un appel à une fonction du système d'exploitation a échoué"
+	SysConst_SShortMonthNameJan,	"Jan"
+	SysConst_SShortMonthNameFeb,	"Fév"
+	SysConst_SShortMonthNameMar,	"Mar"
+	SysConst_SShortMonthNameApr,	"Avr"
+	SysConst_SShortMonthNameMay,	"Mai"
+	SysConst_SShortMonthNameJun,	"Jun"
+	SysConst_SShortMonthNameJul,	"Jul"
+	SysConst_SShortMonthNameAug,	"Aoû"
+	SysConst_SWriteAccess,	"Ecriture"
+	SysConst_SVarArrayCreate,	"Erreur lors de la création du variant ou du tableau"
+	SysConst_SVarArrayBounds,	"Indice de variant ou de tableau hors limites"
+	SysConst_SVarArrayLocked,	"Le variant ou le tableau est verrouillé"
+	SysConst_SInvalidVarCast,	"Conversion de type variant incorrecte"
+	SysConst_SInvalidVarOp,	"Opération de variant incorrecte"
+	SysConst_SInvalidVarNullOp,	"Opération variant NULL incorrecte"
+	SysConst_SInvalidVarOpWithHResultWithPrefix,	"Opération variant incorrecte (%s%.8x)\n%s"
+	SysConst_SVarTypeCouldNotConvert,	"Impossible de convertir le variant de type (%s) en type (%s)"
+	SysConst_SVarTypeConvertOverflow,	"Débordement lors de la conversion du variant de type (%s) en type (%s)"
+	SysConst_SVarOverflow,	"Débordement de variant"
+	SysConst_SVarInvalid,	"Argument incorrect"
+	SysConst_SVarBadType,	"Type de variant incorrect"
+	SysConst_SVarNotImplemented,	"Opération non supportée"
+	SysConst_SVarUnexpected,	"Erreur de variant inattendue"
+	SysConst_SExternalException,	"Exception externe %x"
+	SysConst_SZeroDivide,	"Division par zéro en virgule flottante"
+	SysConst_SOverflow,	"Débordement en virgule flottante"
+	SysConst_SUnderflow,	"Débordement inférieur flottant"
+	SysConst_SInvalidPointer,	"Opération de pointeur incorrecte"
+	SysConst_SInvalidCast,	"Transtypage de classe incorrect"
+	SysConst_SAccessViolationArg3,	"Violation d'accès à l'adresse %p. %s de l'adresse %p"
+	SysConst_SAccessViolationNoArg,	"Violation d'accès"
+	SysConst_SStackOverflow,	"Débordement de pile"
+	SysConst_SControlC,	"Frappe de Contrôle-C"
+	SysConst_SPrivilege,	"Instruction privilégiée"
+	SysConst_SException,	"Exception %s dans le module %s dans %p.\r\n%s%s\r\n"
+	SysConst_SExceptTitle,	"Erreur d'application"
+	SysConst_SInvalidFormat,	"Le format '%s' est incorrect ou incompatible avec l'argument"
+	SysConst_SArgumentMissing,	"Aucun argument pour le format '%s'"
+	SysConst_SDispatchError,	"Appels de méthode variante non supportés"
+	SysConst_SReadAccess,	"Lecture"
+	SysConst_SInvalidInteger,	"'%s' n'est pas une valeur entière correcte"
+	SysConst_STimeEncodeError,	"Argument incorrect pour l'encodage de l'heure"
+	SysConst_SDateEncodeError,	"Argument incorrect pour l'encodage de date"
+	SysConst_SOutOfMemory,	"Mémoire insuffisante"
+	SysConst_SInOutError,	"Erreur E/S %d"
+	SysConst_SFileNotFound,	"Fichier introuvable"
+	SysConst_SInvalidFilename,	"Nom de fichier incorrect"
+	SysConst_STooManyOpenFiles,	"Trop de fichiers ouverts"
+	SysConst_SAccessDenied,	"Accès au fichier refusé"
+	SysConst_SEndOfFile,	"Lecture au-delà de la fin de fichier"
+	SysConst_SDiskFull,	"Disque plein"
+	SysConst_SInvalidInput,	"Saisie numérique incorrecte"
+	SysConst_SDivByZero,	"Division par zéro"
+	SysConst_SRangeError,	"Erreur de vérification d'étendue"
+	SysConst_SIntOverflow,	"Débordement d'entier"
+	SysConst_SInvalidOp,	"Opération en virgule flottante incorrecte"
+END
+

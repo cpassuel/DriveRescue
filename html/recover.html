@@ -1,0 +1,96 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <meta content="text/html; charset=ISO-8859-1"
+ http-equiv="content-type">
+  <title>R&eacute;cup&eacute;ration des donn&eacute;es</title>
+  <link media="screen" rel="stylesheet" href="helpstyle.css"
+ type="text/css">
+</head>
+<body>
+<h4>Restauration des fichiers</h4>
+<br>
+<p>Lors du scan de la partition, les fichiers et r&eacute;pertoire
+trouv&eacute;s sont ajout&eacute;s dans les zones d'arborescence et de
+fichiers.<br>
+</p>
+<p>On peut effectuer une sauvegarde totale ou partielle des fichiers
+retrouv&eacute;s. Si l'on veut faire une restauration partielle, il
+faut au pr&eacute;alable s&eacute;lectionner les fichiers &agrave;
+restaurer.<br>
+</p>
+<p>La colonne FileID indique le premier cluster du fichier pour les cas
+des
+partitions FAT16/32, et le num&eacute;ro d'entr&eacute;e dans la MFT
+pour les partitions NTFS.</p>
+<p><span class="note">La restauration des partitions NTFS est en cours
+de test.<br>
+</span></p>
+<h5>S&eacute;lection des fichiers</h5>
+<p>Un r&eacute;pertoire peut avoir 3 &eacute;tats diff&eacute;rents
+selon l'&eacute;tat des fichiers et des r&eacute;pertoires qu'il
+contient :</p>
+<p><img style="width: 16px; height: 16px;" alt=""
+ src="images/blankbox.gif"> Le r&eacute;pertoire n'est pas
+s&eacute;lectionn&eacute; et aucun fichier/r&eacute;pertoire n'est
+s&eacute;lectionn&eacute; dans les sous r&eacute;pertoires.</p>
+<p><img style="width: 16px; height: 16px;" alt=""
+ src="images/greybox.gif"> Des fichiers et/ou sous-r&eacute;pertoire
+sont s&eacute;lectionn&eacute;s et certains sont
+d&eacute; s&eacute;lectionn&eacute;s.<br>
+</p>
+<p><img style="width: 16px; height: 16px;" alt=""
+ src="images/checkedbox.gif"> Tous les fichiers et sous
+r&eacute;pertoires sont s&eacute;lectionn&eacute;s.</p>
+<p><br>
+</p>
+<p>On peut changer l'&eacute;tat d'un r&eacute;pertoire et de tous les
+des fichiers et cliquer sur la case gauche du nom, on peut aussi
+s&eacute;lectionner des
+fichiers directement dans la zone des fichiers.<br>
+</p>
+<p>Une s&eacute;lection multi-crit&egrave;res (par nom du fichier,
+taille,...) est pr&eacute;vue.<br>
+</p>
+<br>
+<p>Pour s&eacute;lectionner (d&eacute; s&eacute;lectionner) une
+arborescence compl&egrave;te,
+il faut cliquer sur la coche (blanche).</p>
+<br>
+<p>S&eacute;lectionnez <span class="menuitem">Recover/Recover
+All...</span> ou <span class="menuitem">Recover/Recover Selected...</span>
+selon que vous voulez faire une restauration partielle ou
+compl&egrave;te. Une bo&icirc;te de dialogue va s'afficher pour vous
+demander le r&eacute;pertoire dans lequel restaurer ces fichiers.</p>
+<p style="text-align: center;"><img style="width: 324px; height: 331px;"
+ alt="" src="images/selectfolder.gif"><br>
+</p>
+<p>La restauration des fichiers doit s'effectuer sur une partition
+saine
+et en aucun cas sur la partition actuellement
+s&eacute;lectionn&eacute;e. Lors de la restauration, Check Partition va
+recr&eacute;er l'arborescence de la partition analys&eacute;e.<br>
+</p>
+<p><br>
+</p>
+<p><span class="note">Note: Le fait que les fichiers soient dans
+l'arborescence ne
+garantit pas qu'ils puissent &ecirc;tre int&eacute;gralement
+restaur&eacute;s. Les raisons sont multiples:
+secteurs d&eacute;fectueux, partition trop endommag&eacute;, etc. La
+v&eacute;rification est effectu&eacute;e lors de la restauration pour
+ne pas ralentir l'analyse.</span><br>
+</p>
+<h5>Divers<br>
+</h5>
+<p>Il est possible de sauvegarder dans un fichier texte la liste des
+fichiers retrouv&eacute;s ou de restreindre aux fichiers
+s&eacute;lectionn&eacute;es via le menu <span class="menuitem">Tools/List
+Files...</span> et <span class="menuitem">Tools/List Selected Files...</span>.<br>
+</p>
+<p>On peut utiliser le menu <span class="menuitem">Tools/Expand Tree</span>
+pour ouvrir compl&egrave;tement l'arborescence des
+r&eacute;pertoires et <span class="menuitem">Tools/Collapse Tree</span>
+pour la refermer.</p>
+</body>
+</html>

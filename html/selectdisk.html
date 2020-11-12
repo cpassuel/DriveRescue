@@ -1,0 +1,102 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <meta content="text/html; charset=ISO-8859-1"
+ http-equiv="content-type">
+  <title>S&eacute;lection du disque</title>
+  <link media="screen" rel="stylesheet" href="helpstyle.css"
+ type="text/css">
+</head>
+<body>
+<h3>S&eacute;lection du disque dur</h3>
+<h5>S&eacute;lection disque physique</h5>
+<p>Avant de pouvoir travailler sur le disque dur, il faut le
+s&eacute;lectionner. Pour cela, allez dans le menu
+<span class="menuitem">Drives/Select Drive...</span>
+pour ouvrir la fen&ecirc;tre de s&eacute;lection de disques.
+</p>
+<div style="text-align: center;"><img
+ style="width: 488px; height: 173px;" alt=""
+ src="images/selectdrive.gif"><br>
+<br>
+<div style="text-align: left;">
+<p>S&eacute;lectionner
+un disque dans la liste et cliquez sur OK. Un message de confirmation
+va s'inscrire dans la zone de dialogue, et le mod&egrave;le du disque
+va s'afficher dans la barre de titre.</p>
+<p><br>
+</p>
+</div>
+<div style="text-align: left;">
+<p class="note">Note:
+Sous Windows 9x, si le nom du mod&egrave;le n'est pas
+d&eacute;taill&eacute;, c'est peut &ecirc;tre parce que le fichier
+SMARTVSD.VXD n'est pas install&eacute; correctement ; voir <a
+ href="welcome.html">ici</a>
+pour plus d'information.<br>
+</p>
+<br>
+<h5>S&eacute;lection disque virtuel</h5>
+<p>Non impl&eacute;ment&eacute;</p>
+<p>Ce mode permet de travailler sur l'image d'un disque stock&eacute;
+sur fichier.</p>
+<h5>Informations sur le disque</h5>
+<p>Une fois le disque dur s&eacute;lectionn&eacute;, il est possible de
+voir
+ses caract&eacute;ristiques en
+s&eacute;lectionnant le menu <span class="menuitem">Drive/Drive
+Info...</span> Une fen&ecirc;tre indiquant les propri&eacute;t&eacute;s
+du
+disque va s'afficher.<br>
+</p>
+<div style="text-align: center;"><img
+ style="width: 279px; height: 329px;" alt="" src="images/driveinfo.gif"><br>
+</div>
+<div style="text-align: center;">
+<div style="text-align: left;">
+<p>Il est possible de sauvegarder ces informations dans un fichier
+texte en cliquant sur le bouton Save.</p>
+<h5>Visualisation des secteurs</h5>
+<p>Il est possible de visualiser le contenu des secteurs du disque avec
+le menu <span class="menuitem">Drives/View Drive Sectors</span>. La
+sauvegarde des informations sur fichier peut se faire en format hexa
+(tel qu'il est pr&eacute;sent&eacute; &agrave; l'&eacute;cran) ou
+binaire (copie exacte du secteur).<br>
+</p>
+<p style="text-align: center;"><img style="width: 440px; height: 341px;"
+ alt="" src="images/dumpwindow.gif"></p>
+<h5>Liste des partitions</h5>
+<p>La fonctions <span class="menuitem">Drive/Partition List Dump</span>
+permet d'afficher dans la zone
+message, la liste des partitions sur le disque
+s&eacute;lectionn&eacute; m&ecirc;me si celles-ci ne sont pas
+support&eacute;es dans la partie analyse. Cela permet de faire un
+diagnostic rapide sur les partitions trouv&eacute;es (partition
+cach&eacute;es, syst&egrave;me de fichiers sp&eacute;cifique, etc.)</p>
+<p><br>
+</p>
+<p>Par exemple :</p>
+<cite><code>Info partition n&deg; 1<br>
+<br>
+&nbsp;- FileSystem: FAT 32 (BootID: 0B)<br>
+&nbsp;- Status : Logical<br>
+&nbsp;- Start Sector: 24579513 (CHS 1530-1-1)<br>
+&nbsp;- Nombre de secteurs: 22025052<br>
+&nbsp;- Taille de la partition: 10,5 Go<br>
+<br>
+</code></cite>
+<p>Il &ecirc;tre int&eacute;ressant de sauvegarder ces
+informations sur un support externe et fiable apr&egrave;s un
+partitionnement et formatage du disque, car ces informations sont
+utiles pour une r&eacute;cup&eacute;ration ult&eacute;rieure d'une
+partition corrompue. Pour plus d'informations sur une partition, il
+faut
+la s&eacute;lectionner et afficher les informations comme
+indiqu&eacute; <a href="selectpart.html">ici</a>.<br>
+</p>
+</div>
+</div>
+</div>
+</div>
+</body>
+</html>

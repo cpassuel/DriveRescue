@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <meta content="text/html; charset=ISO-8859-1"
+ http-equiv="content-type">
+  <title>Analyse de la partition</title>
+  <link media="screen" rel="stylesheet" href="helpstyle.css"
+ type="text/css">
+</head>
+<body>
+<h3>Analyse de la partition</h3>
+<br>
+<p>Deux modes d'analyse soient possible: soit une analyse
+compl&egrave;te
+en partant du r&eacute;pertoire racine de la partition
+(recommand&eacute;) soit une analyse partielle &agrave; partir d'un
+num&eacute;ro de cluster connu (ou d'un num&eacute;ro d'entr&eacute;e
+MFT en NTFS) correspondant &agrave; un
+r&eacute;pertoire de la partition.<br>
+</p>
+<h5>Analyse compl&egrave;te</h5>
+<p>Pour d&eacute;marrer l'analyse, s&eacute;lectionnez le menu <span
+ class="menuitem">Partition/Scan
+From Root...</span> L'analyse peut prendre plusieurs dizaines de
+minutes selon
+la taille du disque, le nombre de fichiers trouv&eacute;s et
+l'&eacute;tat du disque.</p>
+<h5>Analyse partielle<br>
+</h5>
+<p>S&eacute;lectionnez le menu <span class="menuitem">Partition/Partial
+Scan....</span> Une bo&icirc;te de dialogue pour saisir le cluster
+racine va s'afficher (les bornes min et max sont
+affich&eacute;s).</p>
+<div style="text-align: center;"><img
+ style="width: 276px; height: 141px;"
+ alt="Fen&ecirc;tre de saisie du cluster de d&eacute;part"
+ src="images/partialscan.gif"><br>
+<div style="text-align: left;"><br>
+<p>Attention: le num&eacute;ro de cluster saisi doit correspondre
+&agrave; un cluster contenant un r&eacute;pertoire, sinon le
+r&eacute;sultat est impr&eacute;visible. Pour utilisateurs
+exp&eacute;riment&eacute;s.<br>
+</p>
+<p><br>
+</p>
+<h5>R&eacute;sultat de l'analyse</h5>
+<p>A la fin de l'analyse, un r&eacute;sum&eacute; va s'inscrire dans la
+zone
+de message avec le nombre de fichiers et r&eacute;pertoires
+trouv&eacute;s ainsi que l'espace disque occup&eacute;s par ces
+fichiers.<br>
+</p>
+<p>Le fait de retrouver le nom des fichiers ne veut pas dire que les
+fichiers soient r&eacute;ellement r&eacute;cup&eacute;rables en
+int&eacute;gralit&eacute;, surtout si le disque contient des secteurs
+d&eacute;fectueux.<br>
+</p>
+</div>
+</div>
+</body>
+</html>

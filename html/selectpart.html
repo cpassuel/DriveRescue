@@ -1,0 +1,131 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <meta content="text/html; charset=ISO-8859-1"
+ http-equiv="content-type">
+  <title>S&eacute;lection de la partition</title>
+  <link media="screen" rel="stylesheet" href="helpstyle.css"
+ type="text/css">
+</head>
+<body>
+<h3>S&eacute;lection d'une partition</h3>
+<br>
+<p>Une fois le disque s&eacute;lectionn&eacute;, il faut choisir la
+partition &agrave; analyser. Plusieurs m&eacute;thodes sont
+disponibles pour d&eacute;finir une partition :</p>
+<ul>
+  <li>Via la table des partitions</li>
+  <li>Avec le secteur de d&eacute;but de la partition</li>
+  <li>Mode Expert<br>
+  </li>
+</ul>
+<p>S&eacute;lectionnez le menu <span class="menuitem">Partition/Select
+Partition...</span> pour afficher la bo&icirc;te de dialogue de
+s&eacute;lection de partition.<br>
+</p>
+<br>
+<div style="text-align: center;"><img
+ style="width: 424px; height: 369px;" alt="" src="images/selectpart.gif"><br>
+</div>
+<br>
+<h5>S&eacute;lection &agrave; partir de la table des partitions</h5>
+<p>Permet de choisir une partition &agrave; analyser dans la liste
+des
+partitions trouv&eacute;es et support&eacute;es (FAT 32) sur le disque.
+Si la partition n'est pas dans la liste, cela veut dire qu'elle n'est
+pas support&eacute;e ou qu'elle n'existe pas dans la table des
+partition (table corrompue). Il faut la s&eacute;lectionner
+&agrave; partir de son num&eacute;ro de secteur ou en mode expert.</p>
+<p><br>
+</p>
+<h5>S&eacute;lection &agrave; partir du d&eacute;but de la partition</h5>
+<p>Dans ce cas, il faut conna&icirc;tre le num&eacute;ro du secteur
+o&ugrave;
+commence la partition. Cette information peut &ecirc;tre
+retrouv&eacute;e si l'utilisateur a au pr&eacute;alable
+sauvegard&eacute; les <a href="#partinfo">informations sur la partition</a>
+ou la table des
+partitions. Il est possible de r&eacute;cup&eacute;rer cette
+information en faisant une <a href="#searchpart">recherche de partition</a>.<br>
+</p>
+<p> Cette option est utile si la partition n'est pas
+dans la liste dans partitions support&eacute;es (par exemple: si la
+table des
+partitions corrompue). <br>
+</p>
+<p><br>
+</p>
+<h5>S&eacute;lection Mode Expert</h5>
+<p class="note">Attention: ce mode n&eacute;cessite une connaissance
+pr&eacute;cise des valeurs &agrave; saisir ; soit &agrave;
+partir d'<a href="#partinfo">informations sauvegard&eacute;es</a> au
+pr&eacute;alable ou par d&eacute;duction apr&egrave;s analyse manuelle
+du disque).<br>
+</p>
+<p> Cette option est utile dans le cas o&ugrave; le boot sector de la
+partition et son backup ne sont pas
+valides, ce qui emp&ecirc;che un calcul automatique de ces valeurs.<br>
+</p>
+<p>A moins que vous ne connaissiez la valeur exacte des champs <span
+ class="menuitem">FAT Miroir</span> et <span class="menuitem">Reserved
+Sectors</span>, laissez les valeurs par d&eacute;faut (respectivement
+coch&eacute; et 32).</p>
+<p>Si vous ne connaissez pas la taille de la FAT, laissez le champ <span
+ class="menuitem">FAT Size</span> vide, le programme le calculera
+&agrave; partir des autres informations (ce calcul de base sur
+l'hypoth&egrave;se que la partition a &eacute;t&eacute; format&eacute;e
+avec la taille des clusters par d&eacute;faut).</p>
+<p><br>
+</p>
+<p>Cliquez sur OK pour valider votre choix. Une fois que la partition
+est s&eacute;lectionn&eacute;e, un message
+s'affiche dans la zone de message.</p>
+<h5><a name="searchpart"></a>Recherche de partition</h5>
+<p>Si la table des partitions est endommag&eacute;e, il est possible de
+rechercher les partitions existantes avec <span class="menuitem">Partition/Search
+Partition...</span>. Cette option va lire les secteurs du disque pour
+rechercher les en-t&ecirc;tes de partitions. Cette op&eacute;ration
+peut prendre plusieurs minutes selon la taille du disque.</p>
+<p>Les partitions trouv&eacute;es sont affich&eacute;es dans la zone de
+messages.</p>
+<p style="text-align: center;"><img style="width: 572px; height: 106px;"
+ alt="" src="images/searchpart.gif"><br>
+</p>
+<p></p>
+<h5><a name="partinfo"></a>Informations sur la partition</h5>
+<p>Pour avoir des informations d&eacute;taill&eacute;es sur la
+partition allez dans le menu Partition/Partition Info....</p>
+<div style="text-align: center;"><img
+ style="width: 279px; height: 329px;" alt="" src="images/partinfo.gif"><br>
+</div>
+<p>Il est possible de sauvegarder ces informations dans un fichier
+texte en cliquant sur le bouton Save. La sauvegarde de ces informations
+sur un support externe permet de faciliter la
+r&eacute;cup&eacute;ration ult&eacute;rieure.<br>
+</p>
+<p><br>
+</p>
+<h5>Affichage du contenu du disque</h5>
+<p>Il est possible d'afficher le contenu (hexa et ASCII) d'un cluster
+ou d'un secteur sp&eacute;cifique avec le menu <span class="menuitem">Partition/View
+Cluster/Secteur...</span> Selon que l'on veut afficher des secteurs ou
+des
+clusters, il faut s&eacute;lectionner le mode correspondant.<br>
+</p>
+<p style="text-align: center;"><img style="width: 440px; height: 341px;"
+ alt="" src="images/dumpwindow.gif"></p>
+<p style="text-align: left;">Entrez un num&eacute;ro de secteur ou
+cluster dans champ position et cliquer sur le bouton <span
+ class="menuitem">Go</span> (les bornes max
+et min valides sont indiqu&eacute;s au dessus du champ position). Avec
+les boutons &lt; et&nbsp; &gt;, on peut passer au secteur/cluster
+pr&eacute;c&eacute;dent et suivant.</p>
+<p style="text-align: left;">En cliquant sur le bouton <span
+ class="menuitem">Save Hexa...</span>, vous pouvez sauvegarder dans un
+fichier texte le dump hexad&eacute;cimal affich&eacute; &agrave;
+l'&eacute;cran du cluster/secteur s&eacute;lectionn&eacute;. Le bouton <span
+ class="menuitem">Save Bin...</span> permet de sauvegarder le contenu
+binaire du cluster/secteur tel qu'il est pr&eacute;sent sur le disque.<br>
+</p>
+</body>
+</html>

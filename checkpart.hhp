@@ -1,0 +1,27 @@
+[OPTIONS]
+Compatibility=1.1 or later
+Compiled file=checkpart.chm
+Contents file=checkpart.hhc
+Default Window=main
+Default topic=html\welcome.html
+Display compile progress=No
+Index file=checkpart.hhk
+Language=0x40c Français (France)
+
+[WINDOWS]
+main=,"checkpart.hhc","checkpart.hhk","html\welcome.html",,,,,,0x2120,,0x3006,,,,,,,,0
+
+
+[FILES]
+html\analyze.html
+html\distribution.html
+html\history.html
+html\introduction.html
+html\recover.html
+html\selectdisk.html
+html\selectpart.html
+html\thanks.html
+html\welcome.html
+
+[INFOTYPES]
+
