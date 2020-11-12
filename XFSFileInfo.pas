@@ -210,7 +210,7 @@ end;
 
 
 //
-//
+// Decode Inode data and retrieve associated data
 //
 procedure TXFSFileInfo.LoadInfoFromInodeBuffer(buf: Pointer);
 var
@@ -232,9 +232,15 @@ begin
       begin
       	Self.FIsDirectory := False;
 
+        // data fork (cf p 120 of XFS Algorithms & Data Structures
+        case pino.di_format of
+          XFS_DINODE_FMT_EXTENTS: ;
+          XFS_DINODE_FMT_BTREE : ;
+        end;	// case pino.di_format
+
         // attribure fork
         if pino.di_forkoff <> 0 then
-          case SwapEndian16(pino.di_aformat) of
+          case pino.di_aformat of
             XFS_DINODE_FMT_LOCAL: ;
             XFS_DINODE_FMT_EXTENTS: ;
             XFS_DINODE_FMT_BTREE : ;
@@ -244,8 +250,24 @@ begin
     S_IFDIR:
      	begin
       	Self.FIsDirectory := True;
-       end;
-     else;
+
+        // data fork
+        case pino.di_format of
+          XFS_DINODE_FMT_LOCAL: ;
+          XFS_DINODE_FMT_EXTENTS: ;
+          XFS_DINODE_FMT_BTREE : ;
+        end;
+
+        // attribure fork
+        if pino.di_forkoff <> 0 then
+          case pino.di_aformat of
+            XFS_DINODE_FMT_LOCAL: ;
+            XFS_DINODE_FMT_EXTENTS: ;
+            XFS_DINODE_FMT_BTREE : ;
+            else;
+          end; // case pino.di_aformat
+     	end;
+    else;
   end; // end case
 end;
 
@@ -263,7 +285,6 @@ Structure of root block (level = 1)
   |_______________________________|
 
   each xfs_inobt_rec_t reference a chunk of 64 inodes starting at ir_startino
-
   
 *)
 
