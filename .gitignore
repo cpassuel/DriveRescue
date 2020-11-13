@@ -32,3 +32,11 @@
 
 # project specific
 *.bmp
+
+# garbage files
+*.c
+*.h
+*.mp4
+*.bin
+*.gif
+*.zip
