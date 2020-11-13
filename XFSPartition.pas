@@ -337,6 +337,62 @@ type AGInformations = record
   AGILevel : Cardinal; // agi_level for this AG
 end;
 
+// structure for directory
+
+// Directory
+const XFS_DIR2_BLOCK_MAGIC = $58443242; {* 'XD2B' v3 *}
+//const XFS_DIR2_BLOCK_MAGIC = $58444233; {* 'XDB3' v5 *}
+
+type xfs_dir2_data_free = record
+	offset : __be16;		{* start of freespace *}
+	length : __be16;		{* ength of freespace *}
+end;
+
+type xfs_dir2_data_hdr = record
+	magic : __be32;		{* XFS_DIR2_DATA_MAGIC or XFS_DIR2_BLOCK_MAGIC *}
+  bestfree : array[0..2] of xfs_dir2_data_free;	{* XFS_DIR2_DATA_FD_COUNT is 3 *}
+end;
+
+type xfs_dir2_data_entry = record
+	inumber : __be64;		{* inode number *}
+  namelen : __u8;			{* name length *}
+  name : array of __u8; {* name bytes, no null *}
+//						/* variable offset */
+//  xfs_dir2_data_off_t	tag;  /* starting offset of us */
+end;
+
+///*
+// * Describe a free area in the data block.
+// * The freespace will be formatted as a xfs_dir2_data_unused_t.
+// */
+//typedef struct xfs_dir2_data_free {
+//	xfs_dir2_data_off_t	offset;		/* start of freespace */
+//	xfs_dir2_data_off_t	length;		/* length of freespace */
+//} xfs_dir2_data_free_t;
+//
+///*
+// * Header for the data blocks.
+// * Always at the beginning of a directory-sized block.
+// * The code knows that XFS_DIR2_DATA_FD_COUNT is 3.
+// */
+//typedef struct xfs_dir2_data_hdr {
+//	xfs_uint32_t		magic;		/* XFS_DIR2_DATA_MAGIC */
+//						/* or XFS_DIR2_BLOCK_MAGIC */
+//	xfs_dir2_data_free_t	bestfree[XFS_DIR2_DATA_FD_COUNT];
+//} xfs_dir2_data_hdr_t;
+//
+///*
+// * Active entry in a data block.  Aligned to 8 bytes.
+// * Tag appears as the last 2 bytes.
+// */
+//typedef struct xfs_dir2_data_entry {
+//	xfs_ino_t		inumber;	/* inode number */
+//	xfs_uint8_t		namelen;	/* name length */
+//	xfs_uint8_t		name[1];	/* name bytes, no null */
+//						/* variable offset */
+//	xfs_dir2_data_off_t	tag;		/* starting offset of us */
+//} xfs_dir2_data_entry_t;
+
 
 // ----------------------------------------------------------------------
 //						Constructeur et Destructeurs
@@ -903,6 +959,7 @@ begin
 	      pino := @ClusterBuffer[offset];
   	    if XFSIsFileOrDirInode(@ClusterBuffer[offset]) then
     	  begin
+        	// TODO add di_format for the type of data support 20201113
       	  if (SwapEndian16(pino.di_mode) and S_IFMT) = S_IFREG then
 	        begin
   	        del := GetFileDataExtents(@ClusterBuffer[offset]);
