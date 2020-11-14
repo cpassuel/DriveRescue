@@ -70,6 +70,7 @@ TXFSPartition = class(TLinuxPartition)
       fpFreeBlocks : int64; // sb_fdblocks = free data blocks
       fpInodeCount: int64;	// Allocated inodes for filesystem
       fpInodeSize : Cardinal;		// same inode size for all AG ?
+      fpDirBlockSize : Cardinal;	// size in bytes of a directory block
 			fpFSName : string;
       fpAGCount : integer;
       // array of AGInformation
@@ -106,6 +107,7 @@ TXFSPartition = class(TLinuxPartition)
       // ============================= Propriétés =============================
       // ----------------- Propriétés de la partition -------------------
       property AGCount 		: integer read fpAGCount;
+      property DirectoryBlockSize : Cardinal read fpDirBlockSize;
 end;
 
 
@@ -337,11 +339,19 @@ type AGInformations = record
   AGILevel : Cardinal; // agi_level for this AG
 end;
 
-// structure for directory
 
-// Directory
+{* ============================== DIRECTORY ===============================
+
+	Shortform
+
+*}
+
+
+
+// magic
 const XFS_DIR2_BLOCK_MAGIC = $58443242; {* 'XD2B' v3 *}
 //const XFS_DIR2_BLOCK_MAGIC = $58444233; {* 'XDB3' v5 *}
+
 
 type xfs_dir2_data_free = record
 	offset : __be16;		{* start of freespace *}
@@ -492,17 +502,23 @@ begin
   begin
   	SetString(Self.fpFSName, PAnsiChar(@psb.sb_fname[0]), 12); // gerer les noms de volume < 12
     // UUID
+
+    // TODO : Voir si utilisation des constantes
     // SwapEndian32(sb_blocksize);
     // SwapEndian16(sb_sectsize);
+    Self.fpClusterSize := SwapEndian32(psb.sb_blocksize);
+    Self.fpSectorSize := SwapEndian16(psb.sb_sectsize);
 
-    Self.fpRootDirectory := SwapEndian64(psb.sb_rootino);
     Self.fpAGCount := SwapEndian32(psb.sb_agcount);
     Self.fpInodeSize := SwapEndian16(psb.sb_inodesize);
     Self.fpBlockCount := SwapEndian64(psb.sb_dblocks);
     Self.fpFreeBlocks := SwapEndian64(psb.sb_fdblocks);
     Self.fpInodeCount := SwapEndian64(psb.sb_icount);
 
-    //            sb_fdblocks
+    Self.fpRootDirectory := SwapEndian64(psb.sb_rootino);
+    Self.fpDirBlockSize := SwapEndian32(psb.sb_blocksize) Shl psb.sb_dirblklog;
+
+    // sb_fdblocks
     Self.sb_inopblog := psb.sb_inopblog;
     Self.sb_inodelog := psb.sb_inodelog;
     Self.sb_agblklog := psb.sb_agblklog;
@@ -1011,7 +1027,7 @@ end;
 
       di_format = XFS_DINODE_FMT_EXTENTS
       ----------------------------------
-        inode contains a pointer of a directory block (1 dataextent)
+        inode contains a pointer of a directory block (1 dataextent) di_u.u_bmx[0]
         directory block size = ?
         directory block starts with XD2B
 
@@ -1041,47 +1057,49 @@ type
 
 type  	
 	xfs_dir2_sf_entry = record
-		namelen : __u8;          (* actual name length *)
-//		offset : xfs_dir2_sf_off_t; (* saved offset *)
-		name   : array of __u8;    (* name, variable size *)
-        (*
+		namelen : __u8;       (* actual name length *)
+		offset : __be16; 			{* typedef struct xfs_uint8_t i[2];  xfs_dir2_sf_off_t; *}
+		name : array of __u8;	{* name, variable size *}
+        {*
          * A single byte containing the aFile aType field follows the inode
          * number for version 3 directory entries.
          *
 		dwBitField: *;
          * variable offset after the name.
-         *)
-	inumber: int64;	// Cardinal pour les short inodes
+         *}
+	inumber: int64;	{* Cardinal pour les short inodes can be 4 bytes *}
 	end;
 	__arch_packxfs_dir2_sf_entry_t = xfs_dir2_sf_entry;
 	{$EXTERNALSYM __arch_packxfs_dir2_sf_entry_t}
 
 
 //
-//
+//  buf = pointer to the inode core structure
 //
 procedure TXFSPartition.ParseDirectoryInode(buf: Pointer);
 var
 	pino : ^xfs_dinode_core;
   phdr: ^xfs_dir2_sf_hdr;
+  psfentry : ^xfs_dir2_sf_entry;
   pbuf: Pchar;
 	pdirext: Pxfs_bmbt_rec;
   //dir_extent: xfs_bmbt_irec;
   inodecount : Cardinal;
   longinode : boolean;
   i: integer;
+  name : string;
 begin
 	pino := buf;
 
 	// go after inode core and xxx di_next_unlinked
   pbuf := buf;
-  Inc(pbuf,100);
+  Inc(pbuf,100);	// depends on FS version
 
 	case pino.di_format of
 		XFS_DINODE_FMT_LOCAL:
     	begin
 				phdr := Pointer(pbuf);
-        
+
         if phdr.i8count <> 0 then
         	begin
           	inodecount := phdr.i8count;
@@ -1093,11 +1111,19 @@ begin
             longinode := false;
         	end;
 
-        // aller sur debut kiste xfs_dir2_sf_entry (+ sizeof(xfs_dir2_sf_hdr)) 
+        // aller sur debut liste xfs_dir2_sf_entry (+ sizeof(xfs_dir2_sf_hdr))
         // parcourir liste xfs_dir2_sf_entry et recuperer name and inode
+        pbuf := pbuf + sizeof(xfs_dir2_sf_hdr);
+        psfentry := Pointer(pbuf);
         for i := 0 to inodecount - 1 do
         begin
-        end; 
+          SetString(name, PAnsiChar(@psfentry.name[0]), psfentry.namelen);
+          // retreive inode number
+//          if longinode then
+//          else
+//          end
+          Inc(psfentry, psfentry.offset * 8); //#Todo 1 Check offset math
+        end;
 
         // 
       end;
@@ -1328,6 +1354,8 @@ begin
     info.Add(IntToStr(Self.fpInodeSize));
     info.Add('Root directoty inode');
     info.Add(IntToStr(self.fpRootDirectory));
+    info.Add('Directoty block size');
+    info.Add(IntToStr(self.DirectoryBlockSize));
 
     // infos AG
     info.Add('AG count');
