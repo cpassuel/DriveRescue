@@ -348,60 +348,83 @@ end;
 
 
 
+{* Block directory
+
+	+------------------------------------------+
+  | hdr							    xfs_dir2_data_hdr_t  |
+  | +--------------------------------------+ |
+  | |bestfree[3]			xfs_dir2_data_free_t | |
+  | +--------------------------------------+ |
+  | +--------------------------------------+ |
+  | |u[]						 xfs_dir2_data_union_t | |
+  | +--------------------------------------+ |
+  | +--------------------------------------+ |
+  | |leaf[]					 xfs_dir2_leaf_entry_t | |
+  | +--------------------------------------+ |
+  | +--------------------------------------+ |
+  | |tail 				   xfs_dir2_block_tail_t | |
+  | +--------------------------------------+ |
+	+------------------------------------------+
+
+ *}
+
 // magic
 const XFS_DIR2_BLOCK_MAGIC = $58443242; {* 'XD2B' v3 *}
 //const XFS_DIR2_BLOCK_MAGIC = $58444233; {* 'XDB3' v5 *}
 
+type
+//typedef __uint16_t xfs_dir2_data_off_t;
+//typedef __uint32_t xfs_dir2_dataptr_t;
 
-type xfs_dir2_data_free = record
+{*
+ * Describe a free area in the data block.
+ * The freespace will be formatted as a xfs_dir2_data_unused_t.
+ *}
+xfs_dir2_data_free = record
 	offset : __be16;		{* start of freespace *}
 	length : __be16;		{* ength of freespace *}
 end;
 
-type xfs_dir2_data_hdr = record
+{*
+ * Header for the data blocks.
+ * Always at the beginning of a directory-sized block.
+ * The code knows that XFS_DIR2_DATA_FD_COUNT is 3.
+ *}
+xfs_dir2_data_hdr = record
 	magic : __be32;		{* XFS_DIR2_DATA_MAGIC or XFS_DIR2_BLOCK_MAGIC *}
   bestfree : array[0..2] of xfs_dir2_data_free;	{* XFS_DIR2_DATA_FD_COUNT is 3 *}
 end;
 
-type xfs_dir2_data_entry = record
+{*
+ * Active entry in a data block.  Aligned to 8 bytes.
+ * Tag appears as the last 2 bytes.
+ *}
+xfs_dir2_data_entry = record
 	inumber : __be64;		{* inode number *}
   namelen : __u8;			{* name length *}
-  name : array of __u8; {* name bytes, no null *}
-//						/* variable offset */
-//  xfs_dir2_data_off_t	tag;  /* starting offset of us */
+  name : array[0..0] of __u8; {* name bytes, no null *}
+  {* variable offset *}
+  tag : __be16;        {* starting offset of us *}
 end;
 
-///*
-// * Describe a free area in the data block.
-// * The freespace will be formatted as a xfs_dir2_data_unused_t.
-// */
-//typedef struct xfs_dir2_data_free {
-//	xfs_dir2_data_off_t	offset;		/* start of freespace */
-//	xfs_dir2_data_off_t	length;		/* length of freespace */
-//} xfs_dir2_data_free_t;
-//
-///*
-// * Header for the data blocks.
-// * Always at the beginning of a directory-sized block.
-// * The code knows that XFS_DIR2_DATA_FD_COUNT is 3.
-// */
-//typedef struct xfs_dir2_data_hdr {
-//	xfs_uint32_t		magic;		/* XFS_DIR2_DATA_MAGIC */
-//						/* or XFS_DIR2_BLOCK_MAGIC */
-//	xfs_dir2_data_free_t	bestfree[XFS_DIR2_DATA_FD_COUNT];
-//} xfs_dir2_data_hdr_t;
-//
-///*
-// * Active entry in a data block.  Aligned to 8 bytes.
-// * Tag appears as the last 2 bytes.
-// */
-//typedef struct xfs_dir2_data_entry {
-//	xfs_ino_t		inumber;	/* inode number */
-//	xfs_uint8_t		namelen;	/* name length */
-//	xfs_uint8_t		name[1];	/* name bytes, no null */
-//						/* variable offset */
-//	xfs_dir2_data_off_t	tag;		/* starting offset of us */
-//} xfs_dir2_data_entry_t;
+{*
+ * Unused entry in a data block.  Aligned to 8 bytes.
+ * Tag appears as the last 2 bytes.
+ *}
+xfs_dir2_data_unused = record
+	freetag : __be16;		{* 0xffff XFS_DIR2_DATA_FREE_TAG *}
+  length : __be16;   {* total free length *}
+  {* variable offset *}
+  tag : __be16;        {* starting offset of us *}
+end;
+
+xfs_dir2_data_union = record
+	case Integer of
+  	0 :
+    	(entry : xfs_dir2_data_entry; );
+    1 :
+    	(unused : xfs_dir2_data_unused;);
+end;
 
 
 // ----------------------------------------------------------------------
