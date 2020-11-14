@@ -90,6 +90,8 @@ TXFSPartition = class(TLinuxPartition)
       procedure DecodeDataExtents(pde: Pointer; var dde: TDataExtents);
       function GetFileDataExtents(inodebuf: Pointer): TList;
       procedure GetBTreeDataExtents(del: TList; nodecluster: Cardinal);
+      // directory methods
+      procedure DecodeDirectoryBlock(pbuf: Pointer);
       //
       procedure ParseDirectoryInode(buf: Pointer);
       procedure GetInodeList();
@@ -369,8 +371,10 @@ end;
  *}
 
 // magic
-const XFS_DIR2_BLOCK_MAGIC = $58443242; {* 'XD2B' v3 *}
+const
+XFS_DIR2_BLOCK_MAGIC = $58443242; {* 'XD2B' v3 *}
 //const XFS_DIR2_BLOCK_MAGIC = $58444233; {* 'XDB3' v5 *}
+XFS_DIR2_DATA_FREE_TAG = $ffff;
 
 type
 //typedef __uint16_t xfs_dir2_data_off_t;
@@ -399,7 +403,7 @@ end;
  * Active entry in a data block.  Aligned to 8 bytes.
  * Tag appears as the last 2 bytes.
  *}
-xfs_dir2_data_entry = record
+xfs_dir2_data_entry = packed record
 	inumber : __be64;		{* inode number *}
   namelen : __u8;			{* name length *}
   name : array[0..0] of __u8; {* name bytes, no null *}
@@ -411,19 +415,54 @@ end;
  * Unused entry in a data block.  Aligned to 8 bytes.
  * Tag appears as the last 2 bytes.
  *}
-xfs_dir2_data_unused = record
+xfs_dir2_data_unused = packed record
 	freetag : __be16;		{* 0xffff XFS_DIR2_DATA_FREE_TAG *}
   length : __be16;   {* total free length *}
   {* variable offset *}
   tag : __be16;        {* starting offset of us *}
 end;
 
-xfs_dir2_data_union = record
+xfs_dir2_data_union = packed record
 	case Integer of
   	0 :
     	(entry : xfs_dir2_data_entry; );
     1 :
     	(unused : xfs_dir2_data_unused;);
+end;
+
+
+//
+// buf points on directory block data in memory
+//
+procedure TXFSPartition.DecodeDirectoryBlock(pbuf : Pointer);
+var
+	inode : Int64;
+  name : string;
+  phdr : ^xfs_dir2_data_hdr;
+  pdu : ^xfs_dir2_data_union;
+  offset : Cardinal;
+begin
+  phdr := pbuf;
+  if phdr.magic = SwapEndian32(XFS_DIR2_BLOCK_MAGIC) then
+  begin
+		pbuf := PChar(pbuf) + sizeof(xfs_dir2_data_hdr);
+	  pdu := pbuf;
+
+    // parse entry data till unused entry
+    while pdu.unused.freetag <> XFS_DIR2_DATA_FREE_TAG do
+    begin
+    	// #Todo1 Pb pour récupérer le bon inode, pb SwapEndian64 !!!
+      inode := SwapEndian64(pdu.entry.inumber);
+      SetString(name, PAnsiChar(@pdu.entry.name[0]), pdu.entry.namelen);
+
+      // calculer la taille du data entry (8 bytes aligned)
+      offset := (sizeof(xfs_dir2_data_entry) + pdu.entry.namelen - 1 + 7) and $FFFFFFF8;
+
+      // go to the next data entry
+      Inc(Pchar(pbuf), offset);
+	    pdu := pbuf;
+    end;
+  end;
 end;
 
 
@@ -982,6 +1021,10 @@ var
 begin
 	// CAUTION Partition buffer =>
 	SetLength(ClusterBuffer, Self.ClusterSize);
+
+  // DEBUG DecodeDirectoryBlock
+  if Self.ReadClusterToBuffer(653818, @ClusterBuffer[0], caFillInvalid) = 8 then
+  	Self.DecodeDirectoryBlock(@ClusterBuffer[0]);
 
 	// read all clusters
   for i := 0 to 3 do
