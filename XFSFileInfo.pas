@@ -343,6 +343,7 @@ begin
   // Data Extents
   if not Self.isDirectory then
   	if Assigned(Self.DataExtentsList) then
+    begin
      	info.Add('Data Extents count');
      	info.Add(Inttostr(Self.DECount));
 
@@ -352,6 +353,7 @@ begin
         // DEBUG Error for directories, ok pour les fichiers (pb test directory ?)
         info.Add(Format('(%d, %d, %d)',[Self.DESBlockOffset[i], Self.DEStartBlock[i], Self.DEBlockCount[i]]));
       end;
+    end;
 end;
 
 

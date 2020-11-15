@@ -539,6 +539,8 @@ end;
   | |di_a.di_attrsf		xfs_attr_shortform_t | |
   | +--------------------------------------+ |
 
+  "." and ".." files are not stored in shortform
+
   Inode numbers are stored using 4 or 8 bytes
    i8count <> 0 => inode 8 bytes
    count <> 0  => inode 4 bytes
@@ -618,20 +620,28 @@ begin
 	else
 		parentinode := SwapEndian32(phdr.parent.i4);
 
-	// aller sur debut liste xfs_dir2_sf_entry (+ sizeof(xfs_dir2_sf_hdr))
-	// parcourir liste xfs_dir2_sf_entry et recuperer name and inode
+	// go on first xfs_dir2_sf_entry (beware of size of parent inode)
 	pbuf := Pchar(pbuf) + sizeof(xfs_dir2_sf_hdr);
-	psfentry := Pointer(pbuf);
+  if not longinode then
+		pbuf := Pchar(pbuf) - 4;
+
+	// parcourir liste xfs_dir2_sf_entry et recuperer name and inode
 	for i := 0 to inodecount - 1 do
 	begin
+		psfentry := Pointer(pbuf);
+
 	  SetString(name, PAnsiChar(@psfentry.name[0]), psfentry.namelen);
     if longinode then
     	inode := SwapEndian64(psfentry.inumber.i8)
     else
     	inode := SwapEndian32(psfentry.inumber.i4);
 
-		 // next extry #Todo 1 Check offset math
-    Inc(psfentry, psfentry.offset * 8);
+		// next extry #Todo 1 Check offset math
+    // psfentry.namelen + 1 + 2 + (4 ou 8)
+    if longinode then
+    	pbuf := Pchar(pbuf) + psfentry.namelen + 1 + 2 + 8
+    else
+    	pbuf := Pchar(pbuf) + psfentry.namelen + 1 + 2 + 4;
 	end;
 end;
 
@@ -653,6 +663,9 @@ end;
   | |tail 				   xfs_dir2_block_tail_t | |
   | +--------------------------------------+ |
 	+------------------------------------------+
+
+  "." and ".." files are stored in Block directory
+  "." and ".." point on the same inode for root directory
 
  *}
 
@@ -1141,10 +1154,6 @@ begin
 	// CAUTION Partition buffer =>
 	SetLength(ClusterBuffer, Self.ClusterSize);
 
-  // DEBUG DecodeDirectoryBlock
-  if Self.ReadClusterToBuffer(653818, @ClusterBuffer[0], caFillInvalid) = 8 then
-  	Self.DecodeDirectoryBlock(@ClusterBuffer[0]);
-
 	// read all clusters
   for i := 0 to 3 do
   begin
@@ -1158,24 +1167,44 @@ begin
 	    begin
   	    // pino = first inode in cluster
 	      pino := @ClusterBuffer[offset];
+        // #Todo3 XFSIsFileOrDirInode not usefull
+        // #Todo2 Verify valid values for (di_mode, di_format)
   	    if XFSIsFileOrDirInode(@ClusterBuffer[offset]) then
     	  begin
-        	// TODO add di_format for the type of data support 20201113
       	  if (SwapEndian16(pino.di_mode) and S_IFMT) = S_IFREG then
 	        begin
-  	        del := GetFileDataExtents(@ClusterBuffer[offset]);
+          	del := nil;
+          	case pino.di_format of
+              XFS_DINODE_FMT_LOCAL : ;
+              XFS_DINODE_FMT_EXTENTS, XFS_DINODE_FMT_BTREE : del := GetFileDataExtents(@ClusterBuffer[offset]);
+            end;
 
-	  	    	// Create
+            // Create
   	  	    xfsf := TXFSFileInfo.Create(128 + i*16 + j, @ClusterBuffer[offset], del);
-	        end
-  	      else
-	  	      xfsf := TXFSFileInfo.Create(128 + i*16 + j, @ClusterBuffer[offset]);
+			      // Found a file.
+  			    if assigned(Self.OnFile) then
+    		      Self.OnFile(Self, xfsf, abortscan)
+    			  else
+      				xfsf.Free;
+          end;	// S_IFREG
 
-		      // Found a file.
-  		    if assigned(Self.OnFile) then
-    	      Self.OnFile(Self, xfsf, abortscan)
-    		  else
-      			xfsf.Free;
+       	  if (SwapEndian16(pino.di_mode) and S_IFMT) = S_IFDIR then
+	        begin
+          	del := nil;
+          	case pino.di_format of
+              XFS_DINODE_FMT_LOCAL : ;
+              XFS_DINODE_FMT_EXTENTS : del := GetFileDataExtents(@ClusterBuffer[offset]);
+              XFS_DINODE_FMT_BTREE : ;
+            end;
+
+            // Create
+  	  	    xfsf := TXFSFileInfo.Create(128 + i*16 + j, @ClusterBuffer[offset], del);
+			      // Found a directory.
+  			    if assigned(Self.OnDirectory) then
+    		      Self.OnDirectory(Self, xfsf, abortscan)
+    			  else
+      				xfsf.Free;
+          end; // S_IFDIR
 
 	        // Add to TXFSFileInfo list
   	      // .Add(xfsf)
