@@ -91,6 +91,7 @@ TXFSPartition = class(TLinuxPartition)
       function GetFileDataExtents(inodebuf: Pointer): TList;
       procedure GetBTreeDataExtents(del: TList; nodecluster: Cardinal);
       // directory methods
+      procedure DecodeDirectoryShortForm(pino: Pointer);
       procedure DecodeDirectoryBlock(pbuf: Pointer);
       //
       procedure ParseDirectoryInode(buf: Pointer);
@@ -342,135 +343,11 @@ type AGInformations = record
 end;
 
 
-{* ============================== DIRECTORY ===============================
-
-	Shortform
-
-*}
-
-
-
-{* Block directory
-
-	+------------------------------------------+
-  | hdr							    xfs_dir2_data_hdr_t  |
-  | +--------------------------------------+ |
-  | |bestfree[3]			xfs_dir2_data_free_t | |
-  | +--------------------------------------+ |
-  | +--------------------------------------+ |
-  | |u[]						 xfs_dir2_data_union_t | |
-  | +--------------------------------------+ |
-  | +--------------------------------------+ |
-  | |leaf[]					 xfs_dir2_leaf_entry_t | |
-  | +--------------------------------------+ |
-  | +--------------------------------------+ |
-  | |tail 				   xfs_dir2_block_tail_t | |
-  | +--------------------------------------+ |
-	+------------------------------------------+
-
- *}
-
-// magic
-const
-XFS_DIR2_BLOCK_MAGIC = $58443242; {* 'XD2B' v3 *}
-//const XFS_DIR2_BLOCK_MAGIC = $58444233; {* 'XDB3' v5 *}
-XFS_DIR2_DATA_FREE_TAG = $ffff;
-
-type
-//typedef __uint16_t xfs_dir2_data_off_t;
-//typedef __uint32_t xfs_dir2_dataptr_t;
-
-{*
- * Describe a free area in the data block.
- * The freespace will be formatted as a xfs_dir2_data_unused_t.
- *}
-xfs_dir2_data_free = record
-	offset : __be16;		{* start of freespace *}
-	length : __be16;		{* ength of freespace *}
-end;
-
-{*
- * Header for the data blocks.
- * Always at the beginning of a directory-sized block.
- * The code knows that XFS_DIR2_DATA_FD_COUNT is 3.
- *}
-xfs_dir2_data_hdr = record
-	magic : __be32;		{* XFS_DIR2_DATA_MAGIC or XFS_DIR2_BLOCK_MAGIC *}
-  bestfree : array[0..2] of xfs_dir2_data_free;	{* XFS_DIR2_DATA_FD_COUNT is 3 *}
-end;
-
-{*
- * Active entry in a data block.  Aligned to 8 bytes.
- * Tag appears as the last 2 bytes.
- *}
-xfs_dir2_data_entry = packed record
-	inumber : __be64;		{* inode number *}
-  namelen : __u8;			{* name length *}
-  name : array[0..0] of __u8; {* name bytes, no null *}
-  {* variable offset *}
-  tag : __be16;        {* starting offset of us *}
-end;
-
-{*
- * Unused entry in a data block.  Aligned to 8 bytes.
- * Tag appears as the last 2 bytes.
- *}
-xfs_dir2_data_unused = packed record
-	freetag : __be16;		{* 0xffff XFS_DIR2_DATA_FREE_TAG *}
-  length : __be16;   {* total free length *}
-  {* variable offset *}
-  tag : __be16;        {* starting offset of us *}
-end;
-
-xfs_dir2_data_union = packed record
-	case Integer of
-  	0 :
-    	(entry : xfs_dir2_data_entry; );
-    1 :
-    	(unused : xfs_dir2_data_unused;);
-end;
-
-
-//
-// buf points on directory block data in memory
-//
-procedure TXFSPartition.DecodeDirectoryBlock(pbuf : Pointer);
-var
-	inode : Int64;
-  name : string;
-  phdr : ^xfs_dir2_data_hdr;
-  pdu : ^xfs_dir2_data_union;
-  offset : Cardinal;
-begin
-  phdr := pbuf;
-  if phdr.magic = SwapEndian32(XFS_DIR2_BLOCK_MAGIC) then
-  begin
-		pbuf := PChar(pbuf) + sizeof(xfs_dir2_data_hdr);
-	  pdu := pbuf;
-
-    // parse entry data till unused entry
-    while pdu.unused.freetag <> XFS_DIR2_DATA_FREE_TAG do
-    begin
-    	// #Todo1 Pb pour récupérer le bon inode, pb SwapEndian64 !!!
-      inode := SwapEndian64(pdu.entry.inumber);
-      SetString(name, PAnsiChar(@pdu.entry.name[0]), pdu.entry.namelen);
-
-      // calculer la taille du data entry (8 bytes aligned)
-      offset := (sizeof(xfs_dir2_data_entry) + pdu.entry.namelen - 1 + 7) and $FFFFFFF8;
-
-      // go to the next data entry
-      Inc(Pchar(pbuf), offset);
-	    pdu := pbuf;
-    end;
-  end;
-end;
-
-
 // ----------------------------------------------------------------------
 //						Constructeur et Destructeurs
 // ----------------------------------------------------------------------
 
-  
+
 //
 // Crée la partitionXFS avec le drive et le numéro de secteur où commence la partition
 //
@@ -630,6 +507,248 @@ begin
   end
   else
   	Result := false;
+end;
+
+
+// ----------------------------------------------------------------------
+//										Gestion des repertoires
+// ----------------------------------------------------------------------
+
+
+{* ----------------	Shortform --------------------
+
+	+------------------------------------------+
+  | di_core					_core xfs_dinode_core_t  |
+  | 	di_format = XFS_DINODE_FMT_LOCAL (1)   |
+  | 	di_nblocks = 0												 |
+  | 	di nextents = 0											   |
+  | di_next_unlinked											   |
+  | di_u.di_dir2sf					 	xfs_dir2_sf_t  |
+  | +--------------------------------------+ |
+  | |hdr								 xfs_dir2_sf_hdr_t | |
+  | |		count = number in list[]					 | |
+  | |		parent = parent inode number			 | |
+  | +--------------------------------------+ |
+  | +--------------------------------------+ |
+  | |list[]						 xfs_dir2_sf_entry_t | |
+  | | +----------------------------------+ | |
+  | | +		namelen/offset/name/inumber		 | | |
+  | | +----------------------------------+ | |
+  | +--------------------------------------+ |
+  | +--------------------------------------+ |
+  | |di_a.di_attrsf		xfs_attr_shortform_t | |
+  | +--------------------------------------+ |
+
+  Inode numbers are stored using 4 or 8 bytes
+   i8count <> 0 => inode 8 bytes
+   count <> 0  => inode 4 bytes
+
+   WARNING If i8count and count = 0 => inode 4 bytes
+ *}
+
+type
+
+xfs_dir2_inou  = packed record
+  case Integer of
+	  0:		// i8count <> 0
+    	(i8: __be64);
+	  1:		// count <> 0
+    	(i4: __be32);
+end;
+
+
+xfs_dir2_sf_hdr = packed record
+	count : __u8;            (* count of 4 bytes inode # entries *)
+	i8count : __u8;          (* count of 8-byte inode #s *)
+	parent : xfs_dir2_inou;  (* parent dir inode number *)
+end;
+
+
+xfs_dir2_sf_entry = record
+	namelen : __u8;       (* actual name length *)
+	offset : __be16; 			{* typedef struct xfs_uint8_t i[2];  xfs_dir2_sf_off_t; *}
+	name : array of __u8;	{* name, variable size *}
+      {*
+       * A single byte containing the aFile aType field follows the inode
+       * number for version 3 directory entries.
+       *
+	dwBitField: *;
+       * variable offset after the name.
+       *}
+	inumber: xfs_dir2_inou;	{* Cardinal pour les short inodes can be 4 bytes *}
+end;
+__arch_packxfs_dir2_sf_entry_t = xfs_dir2_sf_entry;
+{$EXTERNALSYM __arch_packxfs_dir2_sf_entry_t}
+
+
+//
+// pino points to inode_core in memory
+//
+procedure TXFSPartition.DecodeDirectoryShortForm(pino: Pointer);
+var
+	pbuf : Pointer;
+  phdr : ^xfs_dir2_sf_hdr;
+	psfentry : ^xfs_dir2_sf_entry;
+  longinode : boolean;
+  inodecount : Cardinal;
+  i : Cardinal;
+  inode : int64;
+  parentinode : int64;
+  name : string;
+begin
+  // go after inode core and xxx di_next_unlinked
+  // #Todo2 Create inode size constant for V3 and V5
+  pbuf := PChar(pino) + 100; 	// depends on FS version
+  phdr := pbuf;
+
+  if phdr.i8count <> 0 then
+  begin
+  	longinode := true;
+    inodecount := phdr.i8count;
+  end
+  else
+  begin
+  	longinode := false;
+    inodecount := phdr.count;
+  end;
+
+	// #Todo2 recup parent inode
+	if longinode then
+		parentinode := SwapEndian64(phdr.parent.i8)
+	else
+		parentinode := SwapEndian32(phdr.parent.i4);
+
+	// aller sur debut liste xfs_dir2_sf_entry (+ sizeof(xfs_dir2_sf_hdr))
+	// parcourir liste xfs_dir2_sf_entry et recuperer name and inode
+	pbuf := Pchar(pbuf) + sizeof(xfs_dir2_sf_hdr);
+	psfentry := Pointer(pbuf);
+	for i := 0 to inodecount - 1 do
+	begin
+	  SetString(name, PAnsiChar(@psfentry.name[0]), psfentry.namelen);
+    if longinode then
+    	inode := SwapEndian64(psfentry.inumber.i8)
+    else
+    	inode := SwapEndian32(psfentry.inumber.i4);
+
+		 // next extry #Todo 1 Check offset math
+    Inc(psfentry, psfentry.offset * 8);
+	end;
+end;
+
+
+{* -------------- Block directory ----------------
+
+	+------------------------------------------+
+  | hdr							    xfs_dir2_data_hdr_t  |
+  | +--------------------------------------+ |
+  | |bestfree[3]			xfs_dir2_data_free_t | |
+  | +--------------------------------------+ |
+  | +--------------------------------------+ |
+  | |u[]						 xfs_dir2_data_union_t | |
+  | +--------------------------------------+ |
+  | +--------------------------------------+ |
+  | |leaf[]					 xfs_dir2_leaf_entry_t | |
+  | +--------------------------------------+ |
+  | +--------------------------------------+ |
+  | |tail 				   xfs_dir2_block_tail_t | |
+  | +--------------------------------------+ |
+	+------------------------------------------+
+
+ *}
+
+// magic
+const
+XFS_DIR2_BLOCK_MAGIC = $58443242; {* 'XD2B' v3 *}
+//const XFS_DIR2_BLOCK_MAGIC = $58444233; {* 'XDB3' v5 *}
+XFS_DIR2_DATA_FREE_TAG = $ffff;
+
+type
+//typedef __uint16_t xfs_dir2_data_off_t;
+//typedef __uint32_t xfs_dir2_dataptr_t;
+
+{*
+ * Describe a free area in the data block.
+ * The freespace will be formatted as a xfs_dir2_data_unused_t.
+ *}
+xfs_dir2_data_free = record
+	offset : __be16;		{* start of freespace *}
+	length : __be16;		{* ength of freespace *}
+end;
+
+{*
+ * Header for the data blocks.
+ * Always at the beginning of a directory-sized block.
+ * The code knows that XFS_DIR2_DATA_FD_COUNT is 3.
+ *}
+xfs_dir2_data_hdr = record
+	magic : __be32;		{* XFS_DIR2_DATA_MAGIC or XFS_DIR2_BLOCK_MAGIC *}
+  bestfree : array[0..2] of xfs_dir2_data_free;	{* XFS_DIR2_DATA_FD_COUNT is 3 *}
+end;
+
+{*
+ * Active entry in a data block.  Aligned to 8 bytes.
+ * Tag appears as the last 2 bytes.
+ *}
+xfs_dir2_data_entry = packed record
+	inumber : __be64;		{* inode number *}
+  namelen : __u8;			{* name length *}
+  name : array[0..0] of __u8; {* name bytes, no null *}
+  {* variable offset *}
+  tag : __be16;        {* starting offset of us *}
+end;
+
+{*
+ * Unused entry in a data block.  Aligned to 8 bytes.
+ * Tag appears as the last 2 bytes.
+ *}
+xfs_dir2_data_unused = packed record
+	freetag : __be16;		{* 0xffff XFS_DIR2_DATA_FREE_TAG *}
+  length : __be16;   {* total free length *}
+  {* variable offset *}
+  tag : __be16;        {* starting offset of us *}
+end;
+
+xfs_dir2_data_union = packed record
+	case Integer of
+  	0 :
+    	(entry : xfs_dir2_data_entry; );
+    1 :
+    	(unused : xfs_dir2_data_unused;);
+end;
+
+
+//
+// buf points on directory block data in memory (xfs_dir2_data_hdr)
+//
+procedure TXFSPartition.DecodeDirectoryBlock(pbuf : Pointer);
+var
+	inode : Int64;
+  name : string;
+  phdr : ^xfs_dir2_data_hdr;
+  pdu : ^xfs_dir2_data_union;
+  offset : Cardinal;
+begin
+  phdr := pbuf;
+  if phdr.magic = SwapEndian32(XFS_DIR2_BLOCK_MAGIC) then
+  begin
+		pbuf := PChar(pbuf) + sizeof(xfs_dir2_data_hdr);
+	  pdu := pbuf;
+
+    // parse entry data till unused entry
+    while pdu.unused.freetag <> XFS_DIR2_DATA_FREE_TAG do
+    begin
+    	// WARNING In debugging mode, inode value is not correctly showned
+      inode := SwapEndian64(pdu.entry.inumber);
+      SetString(name, PAnsiChar(@pdu.entry.name[0]), pdu.entry.namelen);
+
+      // compute size of data entry (8 bytes aligned)
+      offset := (sizeof(xfs_dir2_data_entry) + pdu.entry.namelen - 1 + 7) and $FFFFFFF8;
+
+      // go to the next data entry
+      Inc(Pchar(pbuf), offset);
+	    pdu := pbuf;
+    end;
+  end;
 end;
 
 
@@ -1102,41 +1221,6 @@ end;
 *)
 
 
-(*
- * Directory layout when stored internal to an inode.
- *
- * Small directories are packed as tightly as possible so as to fit into the
- * literal area of the inode.  These 'shortform' directories consist of a
- * single xfs_dir2_sf_hdr header followed by zero or more xfs_dir2_sf_entry
- * structures.  Due the different inode number storage size and the variable
- * length name field in the xfs_dir2_sf_entry all these structure are
- * variable length, and the accessors in this aFile should be used to iterate
- * over them.
- *)
-type  	
-	xfs_dir2_sf_hdr = record
-		count : __u8;            (* count of entries *)
-		i8count : __u8;          (* count of 8-byte inode #s *)
-		//parent : xfs_dir2_inou_t;     (* parent dir inode number *)
-	end;
-
-
-type  	
-	xfs_dir2_sf_entry = record
-		namelen : __u8;       (* actual name length *)
-		offset : __be16; 			{* typedef struct xfs_uint8_t i[2];  xfs_dir2_sf_off_t; *}
-		name : array of __u8;	{* name, variable size *}
-        {*
-         * A single byte containing the aFile aType field follows the inode
-         * number for version 3 directory entries.
-         *
-		dwBitField: *;
-         * variable offset after the name.
-         *}
-	inumber: int64;	{* Cardinal pour les short inodes can be 4 bytes *}
-	end;
-	__arch_packxfs_dir2_sf_entry_t = xfs_dir2_sf_entry;
-	{$EXTERNALSYM __arch_packxfs_dir2_sf_entry_t}
 
 
 //
