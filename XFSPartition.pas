@@ -593,14 +593,13 @@ var
 	psfentry : ^xfs_dir2_sf_entry;
   longinode : boolean;
   inodecount : Cardinal;
-  i : Cardinal;
+  i : Integer;
   inode : int64;
   parentinode : int64;
   name : string;
 begin
   // go after inode core and xxx di_next_unlinked
-  // #Todo2 Create inode size constant for V3 and V5
-  pbuf := PChar(pino) + 100; 	// depends on FS version
+  pbuf := PChar(pino) + XFS_INODE_CORE_DF_OFFSET; 	// depends on FS version
   phdr := pbuf;
 
   if phdr.i8count <> 0 then
@@ -614,7 +613,7 @@ begin
     inodecount := phdr.count;
   end;
 
-	// #Todo2 recup parent inode
+	// recup parent inode
 	if longinode then
 		parentinode := SwapEndian64(phdr.parent.i8)
 	else
@@ -672,7 +671,7 @@ end;
 // magic
 const
 XFS_DIR2_BLOCK_MAGIC = $58443242; {* 'XD2B' v3 *}
-//const XFS_DIR2_BLOCK_MAGIC = $58444233; {* 'XDB3' v5 *}
+XFS_DIR2_BLOCK_MAGIC_V5 = $58444233; {* 'XDB3' v5 *}
 XFS_DIR2_DATA_FREE_TAG = $ffff;
 
 type
@@ -1137,6 +1136,33 @@ begin
 end;
 
 
+{*
+	Regular Files (S_IFREG)
+	* XFS_DINODE_FMT_EXTENTS: The extent data is fully contained within the inode which
+	contains an array of extents
+	* XFS_DINODE_FMT_BTREE: The extent data is contained in the leaves of a B+tree. The inode
+	contains the root node of the tree
+
+    di_mode and S_IFMT = S_IFDIR
+    ----------------------------
+      di_format = XFS_DINODE_FMT_LOCAL
+      --------------------------------
+        shortform
+        xfs_dir2_sf_hdr (inode can be 4 ou 8 bytes)
+        list of xfs_dir2_sf_entry
+
+      di_format = XFS_DINODE_FMT_EXTENTS
+      ----------------------------------
+        inode contains a pointer of a directory block (1 dataextent) di_u.u_bmx[0]
+        directory block size = ?
+        directory block starts with XD2B
+
+      di_format = XFS_DINODE_FMT_BTREE
+      --------------------------------
+      XFS_DINODE_FMT_BTREE: The directory entries are contained in the leaves of a B+tree.
+      The inode contains the root node (xfs_bmdr_block_t*).
+*}
+
 //
 // Scan directory from root
 //
@@ -1168,19 +1194,18 @@ begin
   	    // pino = first inode in cluster
 	      pino := @ClusterBuffer[offset];
         // #Todo3 XFSIsFileOrDirInode not usefull
-        // #Todo2 Verify valid values for (di_mode, di_format)
   	    if XFSIsFileOrDirInode(@ClusterBuffer[offset]) then
     	  begin
       	  if (SwapEndian16(pino.di_mode) and S_IFMT) = S_IFREG then
 	        begin
           	del := nil;
           	case pino.di_format of
-              XFS_DINODE_FMT_LOCAL : ;
               XFS_DINODE_FMT_EXTENTS, XFS_DINODE_FMT_BTREE : del := GetFileDataExtents(@ClusterBuffer[offset]);
             end;
 
             // Create
   	  	    xfsf := TXFSFileInfo.Create(128 + i*16 + j, @ClusterBuffer[offset], del);
+
 			      // Found a file.
   			    if assigned(Self.OnFile) then
     		      Self.OnFile(Self, xfsf, abortscan)
@@ -1192,13 +1217,14 @@ begin
 	        begin
           	del := nil;
           	case pino.di_format of
-              XFS_DINODE_FMT_LOCAL : ;
+              XFS_DINODE_FMT_LOCAL : Self.DecodeDirectoryShortForm(pino);
               XFS_DINODE_FMT_EXTENTS : del := GetFileDataExtents(@ClusterBuffer[offset]);
               XFS_DINODE_FMT_BTREE : ;
             end;
 
             // Create
   	  	    xfsf := TXFSFileInfo.Create(128 + i*16 + j, @ClusterBuffer[offset], del);
+
 			      // Found a directory.
   			    if assigned(Self.OnDirectory) then
     		      Self.OnDirectory(Self, xfsf, abortscan)
@@ -1230,27 +1256,6 @@ begin
   // not implemented
 end;
 
-(*
-    di_mode and S_IFMT = S_IFDIR
-    ----------------------------
-      di_format = XFS_DINODE_FMT_LOCAL
-      --------------------------------
-        shortform
-        xfs_dir2_sf_hdr (inode can be 4 ou 8 bytes)
-        list of xfs_dir2_sf_entry
-
-      di_format = XFS_DINODE_FMT_EXTENTS
-      ----------------------------------
-        inode contains a pointer of a directory block (1 dataextent) di_u.u_bmx[0]
-        directory block size = ?
-        directory block starts with XD2B
-
-      di_format = XFS_DINODE_FMT_BTREE
-      --------------------------------
-*)
-
-
-
 
 //
 //  buf = pointer to the inode core structure
@@ -1272,7 +1277,7 @@ begin
 
 	// go after inode core and xxx di_next_unlinked
   pbuf := buf;
-  Inc(pbuf,100);	// depends on FS version
+  Inc(pbuf,XFS_INODE_CORE_DF_OFFSET);	// depends on FS version
 
 	case pino.di_format of
 		XFS_DINODE_FMT_LOCAL:
@@ -1311,7 +1316,7 @@ begin
       	// di_nextents = 1
         // di_u.di_bmx[0]
         // xfs_bmbt_rec_32_t
-        // buf + 100 contient xfs_bmbt_rec_32 (128 bits pour l'extents)
+        // buf + XFS_INODE_CORE_DF_OFFSET contient xfs_bmbt_rec_32 (128 bits pour l'extents)
         // qui contient le pointeur sur le directory block
         pdirext := Pointer(pbuf);
         //DecodeDataExtents(pdirext, dir_extent);
@@ -1403,64 +1408,6 @@ begin
   // deallocate memory
   bigbuffer := nil;
 end;
-
-
-//
-// Restore a file from its DataExtents
-//
-{function TXFSPartition.RestoreFileOld(finfo: TCommonFileInfo; stream: TStream): boolean;
-var
-	i, j: Cardinal;
-  blocksize, writesize : int64;
-  lastcluster: int64;
-begin
-	// Init
-  writesize := 0;
-  blocksize := Self.ClusterSize;
-  Result := true;
-
-  // dernier cluster = start + block count du dernier extents
-  lastcluster := TXFSFileInfo(finfo).DEStartBlock[TXFSFileInfo(finfo).DECount - 1] + TXFSFileInfo(finfo).DEBlockCount[TXFSFileInfo(finfo).DECount - 1] - 1;
-
-	// Parcourir les DataExtents
-  for i := 0 to TXFSFileInfo(finfo).DECount - 1 do
-  	for j := TXFSFileInfo(finfo).DEStartBlock[i] to TXFSFileInfo(finfo).DEStartBlock[i] + TXFSFileInfo(finfo).DEBlockCount[i] - 1 do
-    begin
-    	// j contains cluster number to read
-    	if Self.ReadCluster(j) <> (Self.ClusterSize div Self.SectorSize) then
-        begin
-            // Gerer les erreurs : Continuer, stopper DISK_READ_ERROR
-            //if Assigned(OnScanError) then
-            //	Self.OnScanError(Self, error, action);
-            // Action = STOP, CONCAT (modif du ReadCluster), USE_PATTERN
-
-            //if (action = ??) then
-            Result := false;
-        	break;
-        end;
-
-        // gestion du dernier cluster, ecrire que la partie utile
-        if j = lastcluster then
-        	blocksize := TXFSFileInfo(finfo).Size mod Self.ClusterSize;
-
-        // en essaie d'ecrire dans le stream
-        try
-            stream.WriteBuffer(Self.fpClusterBuffer[0], blocksize);
-        except
-					on EWriteError do begin
-                // Pas d'action, on sort de la procedure
-                // mettre un retour d'erreur Erreur fichier FILE_WRITE_ERROR
-                Result := false;
-                break;
-            end;
-        end; // try
-
-        // Mettre un appel OnProgress ? (sauvegarder le nb octets écris)
-        writesize := writesize + blocksize;
-        if Assigned(OnRestore) then
-        	Self.OnRestore(self, TXFSFileInfo(finfo).Size, int64(writesize));
-    end; // for
-end;}
 
 
 // ----------------------------------------------------------------------

@@ -327,6 +327,9 @@ end;
 // --------------------------------------------------------------------------
 
 
+//
+// Fill in the TString with informations about this file/direectory
+//
 procedure TXFSFileInfo.GetFileProperties(info: TStrings);
 var
 	i: integer;
@@ -341,19 +344,18 @@ begin
   info.Add(FileTimeToString(Self.AccessDate));
 
   // Data Extents
-  if not Self.isDirectory then
-  	if Assigned(Self.DataExtentsList) then
-    begin
-     	info.Add('Data Extents count');
-     	info.Add(Inttostr(Self.DECount));
+	if Assigned(Self.DataExtentsList) then
+  begin
+   	info.Add('Data Extents count');
+   	info.Add(Inttostr(Self.DECount));
 
-    	for i := 0 to Min(Self.DECount - 1, MAX_DATA_EXTENTS_INFO) do
-      begin
-      	info.Add(Format('Data Extents %d',[i]));
-        // DEBUG Error for directories, ok pour les fichiers (pb test directory ?)
-        info.Add(Format('(%d, %d, %d)',[Self.DESBlockOffset[i], Self.DEStartBlock[i], Self.DEBlockCount[i]]));
-      end;
+  	// displays max MAX_DATA_EXTENTS_INFO
+    for i := 0 to Min(Self.DECount - 1, MAX_DATA_EXTENTS_INFO) do
+    begin
+    	info.Add(Format('Data Extents %d',[i]));
+      info.Add(Format('(%d, %d, %d)',[Self.DESBlockOffset[i], Self.DEStartBlock[i], Self.DEBlockCount[i]]));
     end;
+  end;
 end;
 
 

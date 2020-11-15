@@ -78,7 +78,13 @@ type
 *)
 
 // http://lxr.free-electrons.com/source/fs/xfs/xfs_dinode.h?v=2.6.24
-const XFS_DINODE_MAGIC = $494e;	(* 'IN' *)
+const
+XFS_DINODE_MAGIC = $494e;	(* 'IN' *)
+
+// offset to the data fork du_i from incore start
+XFS_INODE_CORE_DF_OFFSET = 100;
+XFS_INODE_CORE_DF_OFFSET_V5 = 180;
+
 
 (*
  * below, the offsets table in xfs_ialloc_log_di() and  xfs_icdinode
