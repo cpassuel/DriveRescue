@@ -42,7 +42,7 @@ uses
   XFSCommon;
 
 const
-	BIGBUFFER_SIZE = 512 * 1024;	// 20201107
+	BIGBUFFER_SIZE = 1024 * 1024;	// Buffer size for restoring files
 
 type
 
@@ -753,6 +753,9 @@ begin
       inode := SwapEndian64(pdu.entry.inumber);
       SetString(name, PAnsiChar(@pdu.entry.name[0]), pdu.entry.namelen);
 
+      // pour les . et .. ne pas ajouter dans la lsite des noms
+      //
+      
       // compute size of data entry (8 bytes aligned)
       offset := (sizeof(xfs_dir2_data_entry) + pdu.entry.namelen - 1 + 7) and $FFFFFFF8;
 
@@ -1217,8 +1220,13 @@ begin
 	        begin
           	del := nil;
           	case pino.di_format of
-              XFS_DINODE_FMT_LOCAL : Self.DecodeDirectoryShortForm(pino);
-              XFS_DINODE_FMT_EXTENTS : del := GetFileDataExtents(@ClusterBuffer[offset]);
+              XFS_DINODE_FMT_LOCAL :
+              	Self.DecodeDirectoryShortForm(pino);
+              XFS_DINODE_FMT_EXTENTS :
+              	del := GetFileDataExtents(@ClusterBuffer[offset]);
+                // Read block directory (DirectorySize) dans un buffer
+                // Analyze block directory buffer
+                // Self.DecodeDirectoryBlock(buffer)
               XFS_DINODE_FMT_BTREE : ;
             end;
 
@@ -1328,14 +1336,13 @@ begin
 end;
 
 
-// 20201107
+//
 // Optimised RestoreFile with large buffer
 //
-// TEST FUNCTION
 function TXFSPartition.RestoreFile(finfo: TCommonFileInfo; stream: TStream): boolean;
 var
 	bigbuffer: array of Byte;
-	i: Cardinal;
+	i: integer;
   blocksize, writesize : int64;
   deremaningblocks : Cardinal;	// nombres de clusters restants
   clusterstoread, clusternum : Cardinal;
@@ -1365,7 +1372,7 @@ begin
       // Read clusters TODO ADD TEST
       if Self.ReadClustersToBuffer(clusternum, clusterstoread, @bigbuffer[0]) <> clusterstoread * Self.SectorPerCluster then
         begin
-            // Gerer les erreurs : Continuer, stopper DISK_READ_ERROR
+            // #ToDo2 Gerer les erreurs : Continuer, stopper DISK_READ_ERROR
             //if Assigned(OnScanError) then
             //	Self.OnScanError(Self, error, action);
             // Action = STOP, CONCAT (modif du ReadCluster), USE_PATTERN
@@ -1388,7 +1395,8 @@ begin
 			except
 				on EWriteError do begin
              // Pas d'action, on sort de la procedure
-             // mettre un retour d'erreur Erreur fichier FILE_WRITE_ERROR
+             // #Todo2 mettre un retour d'erreur Erreur fichier FILE_WRITE_ERROR
+             //
              Result := false;
              break;
         end;
