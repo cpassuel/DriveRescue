@@ -77,6 +77,8 @@ TXFSPartition = class(TLinuxPartition)
       fpAGBlockSize : Cardinal;
       fpAGRootInode : Cardinal;
       fpAGInodeCount: Cardinal;
+      // List of inodeName records
+      inodeList : TList;
         // ============================= Methodes =============================
       function GetFileSystemName : String; override;
 
@@ -343,6 +345,13 @@ type AGInformations = record
 end;
 
 
+// structure to store (inode, name) when scanning directories
+TInodeName = record
+	inode : int64;
+  name : string;
+end;
+
+
 // ----------------------------------------------------------------------
 //						Constructeur et Destructeurs
 // ----------------------------------------------------------------------
@@ -354,7 +363,9 @@ end;
 constructor TXFSPartition.Create(disque: TGenericDrive; const firstsect: Cardinal);
 begin
 	inherited Create(disque, firstsect);
-  //
+
+  // used when scanning dirs
+  Self.inodeList := TList.Create;
 end;
 
 
@@ -362,8 +373,16 @@ end;
 //
 //
 destructor TXFSPartition.Destroy;
+var
+	i : integer;
 begin
 	inherited Destroy;
+
+  // reverse order mandatory
+  for i := Self.inodeList.Count - 1 downto 0 do
+  	Dispose(Self.inodeList[i]);
+
+  Self.inodeList.Destroy;
 end;
 
 
@@ -594,9 +613,8 @@ var
   longinode : boolean;
   inodecount : Cardinal;
   i : Integer;
-  inode : int64;
   parentinode : int64;
-  name : string;
+  pinoname : ^TInodeName;
 begin
   // go after inode core and xxx di_next_unlinked
   pbuf := PChar(pino) + XFS_INODE_CORE_DF_OFFSET; 	// depends on FS version
@@ -627,13 +645,17 @@ begin
 	// parcourir liste xfs_dir2_sf_entry et recuperer name and inode
 	for i := 0 to inodecount - 1 do
 	begin
+		New(pinoname);
 		psfentry := Pointer(pbuf);
 
-	  SetString(name, PAnsiChar(@psfentry.name[0]), psfentry.namelen);
+	  SetString(pinoname.name, PAnsiChar(@psfentry.name[0]), psfentry.namelen);
     if longinode then
-    	inode := SwapEndian64(psfentry.inumber.i8)
+    	pinoname.inode := SwapEndian64(psfentry.inumber.i8)
     else
-    	inode := SwapEndian32(psfentry.inumber.i4);
+    	pinoname.inode := SwapEndian32(psfentry.inumber.i4);
+
+    // ajoute à la liste des (inode, name)
+    Self.inodeList.Add(pinoname);
 
 		// next extry #Todo 1 Check offset math
     // psfentry.namelen + 1 + 2 + (4 ou 8)
@@ -734,11 +756,10 @@ end;
 //
 procedure TXFSPartition.DecodeDirectoryBlock(pbuf : Pointer);
 var
-	inode : Int64;
-  name : string;
   phdr : ^xfs_dir2_data_hdr;
   pdu : ^xfs_dir2_data_union;
   offset : Cardinal;
+  pinoname : ^TInodeName;
 begin
   phdr := pbuf;
   if phdr.magic = SwapEndian32(XFS_DIR2_BLOCK_MAGIC) then
@@ -749,13 +770,17 @@ begin
     // parse entry data till unused entry
     while pdu.unused.freetag <> XFS_DIR2_DATA_FREE_TAG do
     begin
-    	// WARNING In debugging mode, inode value is not correctly showned
-      inode := SwapEndian64(pdu.entry.inumber);
-      SetString(name, PAnsiChar(@pdu.entry.name[0]), pdu.entry.namelen);
+    	New(pinoname);
 
-      // pour les . et .. ne pas ajouter dans la lsite des noms
-      //
-      
+      pinoname.inode := SwapEndian64(pdu.entry.inumber);
+      SetString(pinoname.name, PAnsiChar(@pdu.entry.name[0]), pdu.entry.namelen);
+
+      // pour les . et .. ne pas ajouter dans la liste des noms
+      if (pinoname.name <> '.') and (pinoname.name <> '..') then
+      	Self.inodeList.Add(pinoname)
+      else
+      	Dispose(pinoname);
+
       // compute size of data entry (8 bytes aligned)
       offset := (sizeof(xfs_dir2_data_entry) + pdu.entry.namelen - 1 + 7) and $FFFFFFF8;
 
@@ -1222,11 +1247,12 @@ begin
           	case pino.di_format of
               XFS_DINODE_FMT_LOCAL :
               	Self.DecodeDirectoryShortForm(pino);
+                // recup la liste des (inode, nom de fichier)
               XFS_DINODE_FMT_EXTENTS :
               	del := GetFileDataExtents(@ClusterBuffer[offset]);
                 // Read block directory (DirectorySize) dans un buffer
-                // Analyze block directory buffer
-                // Self.DecodeDirectoryBlock(buffer)
+                // Analyze block directory buffer Self.DecodeDirectoryBlock(buffer)
+                // recup la liste des (inode, nom de fichier)
               XFS_DINODE_FMT_BTREE : ;
             end;
 
